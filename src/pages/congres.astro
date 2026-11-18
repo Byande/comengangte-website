@@ -21,7 +21,7 @@ const photos = Object.values(congres).slice(0, 6);
 ---
 
 <Base title="Le Congrès" description={`Le ${site.nomLong} : présentation, temps forts, programme et éditions passées. Édition ${site.edition.annee} ${site.edition.datesTexte.toLowerCase()}.`}>
-  <PageHero eyebrow={`Édition ${site.edition.annee}`} titre="Le Congrès" lead={`${site.edition.datesTexte}, ${site.edition.lieu.toLowerCase()}. Le rendez-vous annuel de la diaspora et des Bangangté du pays autour de Sa Majesté le Roi.`} />
+  <PageHero eyebrow={`Édition ${site.edition.annee}`} titre="Le Congrès" lead={`${site.edition.datesTexte}, ${site.edition.lieu.toLowerCase()}. Le rendez-vous, tous les deux ans, de la diaspora et des Bangangté du pays autour de Sa Majesté le Roi.`} />
 
   <section class="wrap grid gap-10 pb-16 sm:pb-24 lg:grid-cols-12 lg:gap-14">
     <div class="ndop-frame lg:col-span-7">
@@ -34,7 +34,7 @@ const photos = Object.values(congres).slice(0, 6);
       Le {site.nom} est le {site.nomLong}, {site.nomAnglais}. Son nom long historique est « {site.nomHistorique} ».
     </p>
     <p>
-      Il réunit chaque année la diaspora et les Bangangté du pays autour de Sa Majesté le Roi. L’édition {site.edition.annee} sert notamment à lever
+      Il réunit tous les deux ans la diaspora et les Bangangté du pays autour de Sa Majesté le Roi. L’édition {site.edition.annee} sert notamment à lever
       des fonds pour le futur musée de la chefferie, installé dans l’ancien palais royal.
     </p>
     <p>
