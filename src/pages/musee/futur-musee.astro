@@ -17,12 +17,14 @@ const engagements = [
   <PageHero eyebrow="Musée numérique" titre="Le futur musée" lead="L’ancien palais royal, à l’entrée de la cour de la chefferie, accueillera le musée de la chefferie Bangangté." />
 
   <div class="wrap">
-    <Image src={palais2} alt="L’ancien palais royal de Bangangté, vu de face, avec des visiteurs sur l’esplanade." widths={[640, 960, 1280, 1600]} sizes="(min-width: 1152px) 1152px, 100vw" class="aspect-[16/9] w-full rounded-sm object-cover sm:aspect-[21/9]" loading="eager" />
+    <div class="ndop-frame">
+    <Image src={palais2} alt="L’ancien palais royal de Bangangté, vu de face, avec des visiteurs sur l’esplanade." widths={[640, 960, 1280, 1600]} sizes="(min-width: 1152px) 1152px, 100vw" class="aspect-[16/9] w-full object-cover sm:aspect-[21/9]" loading="eager" />
+    </div>
   </div>
 
   <section class="wrap section-tight grid gap-10 md:grid-cols-2 md:gap-14">
     <div class="prose-site">
-      <h2 class="text-2xl sm:text-3xl">L’ancien palais royal</h2>
+      <h2 class="titre text-2xl sm:text-3xl">L’ancien palais royal</h2>
       <p>De construction coloniale allemande, le bâtiment offre environ 369 m² exploitables. Il porte la mémoire d’une hybridation entre les traditions locales et les apports européens.</p>
       <p>Le patrimoine bâti de la chefferie comprend aussi la maison de la Reine blanche.</p>
       <p>L’édition {site.edition.annee} du congrès contribue à réunir les fonds nécessaires au musée.</p>
@@ -33,12 +35,12 @@ const engagements = [
 
   <section class="border-t border-trait" aria-labelledby="engagements">
     <div class="wrap section-tight">
-      <h2 id="engagements" class="text-2xl sm:text-3xl">Trois engagements</h2>
+      <h2 id="engagements" class="titre text-2xl sm:text-3xl">Trois engagements</h2>
       <ol class="mt-8 grid gap-8 sm:grid-cols-3">
         {
           engagements.map((e, i) => (
             <li>
-              <p class="font-serif text-sm text-ndop">0{i + 1}</p>
+              <p class="font-serif text-sm text-or">0{i + 1}</p>
               <h3 class="mt-1 text-2xl">{e.titre}</h3>
               <p class="mt-2 text-[0.98rem] leading-relaxed text-muted">{e.texte}</p>
             </li>

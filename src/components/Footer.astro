@@ -31,13 +31,13 @@ const colonnes = [
 ---
 
 <footer class="mt-auto">
-  <NdopBand />
+  <NdopBand hauteur={20} />
   <div class="bg-vert text-white">
     <div class="wrap grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
       <div class="sm:col-span-2 lg:col-span-2">
         <a href="/" class="inline-flex items-center gap-3">
           <Image src={logo} alt={`Logo du ${site.nom}`} width={48} height={48} class="h-12 w-12 rounded-full" loading="lazy" />
-          <span class="font-serif text-xl font-semibold">{site.nom}</span>
+          <span class="font-serif text-xl font-semibold">COMENGA<span class="text-or-clair">’NGTE</span></span>
         </a>
         <p class="mt-4 max-w-sm text-[0.95rem] leading-relaxed text-white/80">{site.nomLong}. {site.signature}.</p>
         <p class="mt-6 text-sm text-white/70">
@@ -50,7 +50,7 @@ const colonnes = [
       {
         colonnes.map((c) => (
           <div>
-            <h2 class="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-white/70">{c.titre}</h2>
+            <h2 class="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-or-clair">{c.titre}</h2>
             <ul class="mt-4 space-y-1">
               {c.liens.map((l) => (
                 <li>

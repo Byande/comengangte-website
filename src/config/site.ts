@@ -21,6 +21,9 @@ export const site = {
     datesCourtes: '25 nov. – 6 déc. 2026',
     lieu: 'Esplanade de la chefferie supérieure Bangangté',
     lieuDetail: 'Département du Ndé, région de l’Ouest, Cameroun',
+    /** Thème et parrainage relevés sur l'affiche officielle du festival 2026. */
+    theme: 'Un peuple, un Roi, une culture : le Nzouah au cœur du développement durable du groupement Bangangté',
+    parrainage: 'Sous le haut parrainage du Ministère des Arts et de la Culture',
   },
 
   editionsPassees: [

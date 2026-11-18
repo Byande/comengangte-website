@@ -29,7 +29,7 @@ const nomsObjets = objets.map((o) => `${o.data.id} · ${o.data.titre}`);
         packs.map((p) => (
           <li class="flex flex-col border-t-2 border-or bg-white p-6 sm:p-8">
             <h3 class="text-2xl text-vert">{p.nom}</h3>
-            <p class="mt-2 font-semibold text-vert">{p.montant}</p>
+            <p class="mt-2 font-semibold text-or">{p.montant}</p>
             <ul class="mt-5 space-y-2 text-[0.95rem] text-muted">
               {p.avantages.map((a) => (
                 <li class="flex gap-3">
@@ -45,19 +45,19 @@ const nomsObjets = objets.map((o) => `${o.data.id} · ${o.data.titre}`);
     </ul>
   </section>
 
-  <NdopBand hauteur={8} />
+  <NdopBand hauteur={20} />
 
   <section class="wrap section-tight grid gap-10 md:grid-cols-2 md:gap-14" id="parrainer" aria-labelledby="parrainer-titre">
     <div>
       <p class="eyebrow">Parrainer un objet</p>
-      <h2 id="parrainer-titre" class="mt-2 text-3xl sm:text-4xl">Votre nom sur la fiche d’un objet</h2>
+      <h2 id="parrainer-titre" class="titre mt-2 text-3xl sm:text-4xl">Votre nom sur la fiche d’un objet</h2>
       <div class="prose-site mt-6">
         <p>Chaque objet de la collection peut être parrainé. Le nom du parrain figure ensuite sur la fiche de l’objet en ligne.</p>
         <p><a href="/musee/collection">Choisir un objet dans la collection</a></p>
       </div>
     </div>
     <div id="formulaire" class="scroll-mt-24">
-      <h2 class="text-2xl">Je veux soutenir</h2>
+      <h2 class="titre text-2xl">Je veux soutenir</h2>
       <p class="mt-2 text-muted">Le comité vous recontacte pour convenir des modalités.</p>
       <div class="mt-6">
         <Formulaire

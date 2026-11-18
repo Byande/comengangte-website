@@ -25,13 +25,13 @@ const tous = await objetsPublics();
     </div>
   </PageHero>
 
-  <NdopBand hauteur={10} />
+  <NdopBand hauteur={20} />
 
   <section class="section wrap" aria-labelledby="vedettes">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
         <p class="eyebrow">Objets vedettes</p>
-        <h2 id="vedettes" class="mt-2 text-3xl sm:text-4xl">Quatre pièces pour commencer</h2>
+        <h2 id="vedettes" class="titre mt-2 text-3xl sm:text-4xl">Quatre pièces pour commencer</h2>
       </div>
       <a href="/musee/collection" class="btn-link">Tous les objets</a>
     </div>
@@ -40,32 +40,32 @@ const tous = await objetsPublics();
     </div>
   </section>
 
-  <section class="bg-gris">
+  <section class="bg-ndop text-white">
     <div class="wrap section-tight grid gap-10 lg:grid-cols-3">
       <div>
-        <p class="font-serif text-5xl text-ndop sm:text-6xl">{site.musee.objetsInventories}</p>
-        <p class="mt-2 text-muted">objets inventoriés et documentés par {site.partenaire.nom}</p>
+        <p class="font-serif text-5xl text-or-clair sm:text-6xl">{site.musee.objetsInventories}</p>
+        <p class="mt-2 text-white/80">objets inventoriés et documentés par {site.partenaire.nom}</p>
       </div>
       <div>
-        <p class="font-serif text-5xl text-ndop sm:text-6xl">{tous.length}</p>
-        <p class="mt-2 text-muted">objets déjà visibles en ligne, d’autres à venir</p>
+        <p class="font-serif text-5xl text-or-clair sm:text-6xl">{tous.length}</p>
+        <p class="mt-2 text-white/80">objets déjà visibles en ligne, d’autres à venir</p>
       </div>
       <div>
-        <p class="font-serif text-5xl text-ndop sm:text-6xl">4</p>
-        <p class="mt-2 text-muted">salles thématiques</p>
+        <p class="font-serif text-5xl text-or-clair sm:text-6xl">4</p>
+        <p class="mt-2 text-white/80">salles thématiques</p>
       </div>
     </div>
   </section>
 
   <section class="section wrap" aria-labelledby="salles">
     <p class="eyebrow">Les salles</p>
-    <h2 id="salles" class="mt-2 max-w-2xl text-3xl sm:text-4xl">Quatre thématiques, quatre salles</h2>
+    <h2 id="salles" class="titre mt-2 max-w-2xl text-3xl sm:text-4xl">Quatre thématiques, quatre salles</h2>
     <ol class="mt-10 grid gap-px overflow-hidden rounded-md border border-trait bg-trait sm:grid-cols-2">
       {
         salles.map((s) => (
-          <li class="bg-white">
+          <li class="border-t-4 border-ndop bg-white">
             <a href={`/musee/salles/${s.slug}`} class="group block h-full p-6 sm:p-8">
-              <span class="font-serif text-sm text-ndop">Salle {s.numero}</span>
+              <span class="font-serif text-sm text-or">Salle {s.numero}</span>
               <h3 class="mt-2 text-xl group-hover:underline decoration-or/60 underline-offset-4 sm:text-2xl">{s.titre}</h3>
               <p class="mt-3 text-[0.98rem] leading-relaxed text-muted">{s.propos}</p>
             </a>
@@ -78,7 +78,7 @@ const tous = await objetsPublics();
   <section class="wrap section-tight grid gap-8 border-t border-trait md:grid-cols-2 md:items-center md:gap-12" aria-labelledby="projet">
     <div class="order-2 md:order-1">
       <p class="eyebrow">Le projet</p>
-      <h2 id="projet" class="mt-2 text-3xl sm:text-4xl">Un musée dans l’ancien palais royal</h2>
+      <h2 id="projet" class="titre mt-2 text-3xl sm:text-4xl">Un musée dans l’ancien palais royal</h2>
       <div class="prose-site mt-6">
         <p>
           L’ancien palais royal, de construction coloniale allemande, se trouve à l’entrée de la cour de la chefferie. Il a été retenu pour

@@ -4,11 +4,12 @@ import Base from '../layouts/Base.astro';
 import Countdown from '../components/Countdown.astro';
 import ObjetCard from '../components/ObjetCard.astro';
 import NdopBand from '../components/NdopBand.astro';
-import Panthere from '../components/Panthere.astro';
 import VideoLazy from '../components/VideoLazy.astro';
 import { objetsVedettes } from '../lib/objets';
 import { site } from '../config/site';
 import logo from '../assets/logo/logo-comengangte.png';
+import panthere from '../assets/fresques/panthere-peinture.jpg';
+import affiche from '../assets/congres/affiche-festival-2026.jpg';
 
 const vedettes = await objetsVedettes();
 const entrees = [
@@ -19,36 +20,45 @@ const entrees = [
 ---
 
 <Base title={site.nom} description={`${site.nomLong}. ${site.signature}. Édition ${site.edition.annee} : ${site.edition.datesTexte.toLowerCase()}, ${site.edition.lieu}.`}>
-  <section class="relative overflow-hidden">
-    <Panthere class="absolute right-[max(1rem,calc((100vw-72rem)/2))] top-1/2 hidden w-[min(42vw,560px)] -translate-y-1/2 text-or opacity-[0.22] md:block" />
-    <div class="wrap relative pt-14 pb-10 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32">
-      <div class="max-w-3xl">
-        <Image src={logo} alt={`Logo du ${site.nom}`} width={96} height={96} class="h-20 w-20 rounded-full sm:h-24 sm:w-24" loading="eager" />
-        <p class="eyebrow mt-8">{site.nomLong}</p>
-        <h1 class="mt-3 text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-7xl">{site.signature}</h1>
-        <p class="lead mt-6">
-          Édition {site.edition.annee} · {site.edition.datesTexte.toLowerCase()}<br />
-          {site.edition.lieu}, {site.edition.lieuDetail}.
-        </p>
-        <div class="mt-10">
-          <Countdown />
-        </div>
+  <section class="wrap grid gap-10 pt-12 pb-14 sm:pt-16 sm:pb-20 lg:grid-cols-12 lg:items-center lg:gap-14 lg:pt-20 lg:pb-28">
+    <div class="lg:col-span-7">
+      <Image src={logo} alt={`Logo du ${site.nom}`} width={96} height={96} class="h-20 w-20 rounded-full sm:h-24 sm:w-24" loading="eager" />
+      <p class="eyebrow mt-8">{site.nomLong}</p>
+      <h1 class="titre mt-3 text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-7xl">{site.signature}</h1>
+      <span class="filet-or" aria-hidden="true"></span>
+      <p class="lead mt-6">
+        Édition {site.edition.annee} · {site.edition.datesTexte.toLowerCase()}<br />
+        {site.edition.lieu}, {site.edition.lieuDetail}.
+      </p>
+      <p class="mt-5 max-w-xl font-serif text-lg italic text-vert sm:text-xl">« {site.edition.theme} »</p>
+      <p class="mt-2 text-sm text-muted">{site.edition.parrainage}.</p>
+      <div class="mt-10">
+        <Countdown />
       </div>
-      <Panthere class="-mb-2 -mr-5 mt-6 ml-auto w-[72%] max-w-[320px] text-or opacity-[0.26] md:hidden" />
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/congres" class="btn-primary">Le programme</a>
+        <a href="/musee" class="btn-outline">Visiter le musée numérique</a>
+      </div>
+    </div>
+    <div class="lg:col-span-5">
+      <div class="ndop-frame mx-auto max-w-md lg:max-w-none">
+        <Image src={panthere} alt="La panthère, emblème royal des Bangangté : fresque peinte à la chefferie, sur fond orangé encadré d’or." widths={[420, 640, 900]} sizes="(min-width: 1024px) 40vw, (min-width: 640px) 28rem, 100vw" class="aspect-square w-full object-cover" loading="eager" fetchpriority="high" />
+      </div>
+      <p class="mt-3 text-center text-sm text-muted lg:text-right">Nzui Manto, la panthère royale. Fresque de la chefferie.</p>
     </div>
   </section>
 
-  <NdopBand hauteur={10} />
+  <NdopBand hauteur={20} />
 
-  <section class="wrap section-tight" aria-label="Entrées principales">
-    <ul class="grid gap-px overflow-hidden rounded-md border border-trait bg-trait md:grid-cols-3">
+  <section class="bg-vert text-white" aria-label="Entrées principales">
+    <ul class="wrap grid gap-px py-2 md:grid-cols-3">
       {
         entrees.map((e) => (
-          <li class="bg-white">
-            <a href={e.href} class="group flex h-full flex-col border-t-2 border-vert p-6 transition-colors hover:bg-gris sm:p-8">
-              <h2 class="text-2xl text-vert">{e.titre}</h2>
-              <p class="mt-3 text-[0.98rem] leading-relaxed text-muted">{e.texte}</p>
-              <span class="mt-auto pt-6 text-sm font-semibold text-or">Découvrir →</span>
+          <li>
+            <a href={e.href} class="group flex h-full flex-col border-t border-white/15 px-2 py-8 transition-colors hover:bg-vert-fonce sm:px-6 md:border-t-0 md:border-l md:first:border-l-0">
+              <h2 class="text-2xl text-or-clair sm:text-3xl">{e.titre}</h2>
+              <p class="mt-3 text-[0.98rem] leading-relaxed text-white/85">{e.texte}</p>
+              <span class="mt-auto pt-6 text-sm font-semibold text-or-clair group-hover:underline">Découvrir →</span>
             </a>
           </li>
         ))
@@ -56,15 +66,15 @@ const entrees = [
     </ul>
   </section>
 
-  <section class="wrap section grid gap-10 border-t border-trait lg:grid-cols-12 lg:gap-12" aria-labelledby="marraine">
-    <div class="lg:col-span-5">
+  <section class="wrap section grid gap-10 lg:grid-cols-12 lg:gap-12" aria-labelledby="marraine">
+    <div class="border-l-4 border-or pl-6 lg:col-span-5">
       <p class="eyebrow">Sous le haut patronage</p>
-      <h2 id="marraine" class="mt-2 text-3xl text-vert sm:text-4xl">{site.personnalites.roi.nom}</h2>
+      <h2 id="marraine" class="titre mt-2 text-3xl sm:text-4xl">{site.personnalites.roi.nom}</h2>
       <p class="mt-2 text-lg text-muted">{site.personnalites.roi.titre}</p>
     </div>
-    <div class="lg:col-span-7 lg:border-l lg:border-trait lg:pl-12">
+    <div class="border-l-4 border-or pl-6 lg:col-span-7">
       <p class="eyebrow">Marraine</p>
-      <h2 class="mt-2 text-3xl text-vert sm:text-4xl">{site.personnalites.marraine.nom}</h2>
+      <h2 class="titre mt-2 text-3xl sm:text-4xl">{site.personnalites.marraine.nom}</h2>
       <p class="mt-2 text-lg text-muted">{site.personnalites.marraine.titre} du projet de musée</p>
       <p class="prose-site mt-6 max-w-prose">
         Le congrès réunit chaque année la diaspora et les Bangangté du pays autour de Sa Majesté le Roi. L’édition {site.edition.annee} contribue à
@@ -73,12 +83,13 @@ const entrees = [
     </div>
   </section>
 
+  <NdopBand hauteur={12} />
   <section class="bg-gris">
     <div class="wrap section-tight">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p class="eyebrow text-ndop">Musée numérique</p>
-          <h2 class="mt-2 text-3xl sm:text-4xl">Les objets vedettes</h2>
+          <p class="eyebrow">Musée numérique</p>
+          <h2 class="mt-2 text-3xl text-ndop sm:text-4xl">Les objets vedettes</h2>
         </div>
         <a href="/musee/collection" class="btn-link text-ndop">Toute la collection</a>
       </div>
@@ -87,16 +98,31 @@ const entrees = [
       </div>
     </div>
   </section>
+  <NdopBand hauteur={12} />
 
-  <section class="wrap section grid gap-10 lg:grid-cols-12 lg:gap-14" aria-labelledby="reportage">
-    <div class="lg:col-span-4">
-      <p class="eyebrow">Médias</p>
-      <h2 id="reportage" class="mt-2 text-3xl sm:text-4xl">Le reportage de la CRTV</h2>
-      <p class="mt-4 text-muted">Diffusé le 17 novembre 2026.</p>
-      <a href="/medias" class="btn-link mt-6">Tous les médias</a>
+  <section class="wrap section grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14" aria-labelledby="affiche">
+    <div class="lg:col-span-5">
+      <p class="eyebrow">Édition {site.edition.annee}</p>
+      <h2 id="affiche" class="titre mt-2 text-3xl sm:text-4xl">L’affiche officielle</h2>
+      <p class="prose-site mt-6">{site.edition.parrainage}. Thème : « {site.edition.theme} ».</p>
+      <a href="/congres" class="btn-primary mt-8">Le Congrès</a>
     </div>
-    <div class="lg:col-span-8">
-      <VideoLazy src="/videos/reportage-crtv-2026-11-17.mp4" titre="Reportage CRTV du 17 novembre 2026" />
+    <div class="ndop-frame lg:col-span-7">
+      <Image src={affiche} alt={`Affiche officielle du Festival ${site.nom} ${site.edition.annee} : Sa Majesté le Roi, la chefferie aux toits verts et un danseur masqué.`} widths={[640, 960, 1280]} sizes="(min-width: 1024px) 60vw, 100vw" class="w-full" loading="lazy" />
+    </div>
+  </section>
+
+  <section class="border-t-4 border-vert">
+    <div class="wrap section-tight grid gap-10 lg:grid-cols-12 lg:gap-14" aria-labelledby="reportage">
+      <div class="lg:col-span-4">
+        <p class="eyebrow">Médias</p>
+        <h2 id="reportage" class="titre mt-2 text-3xl sm:text-4xl">Le reportage de la CRTV</h2>
+        <p class="mt-4 text-muted">Diffusé le 17 novembre 2026.</p>
+        <a href="/medias" class="btn-link mt-6">Tous les médias</a>
+      </div>
+      <div class="lg:col-span-8">
+        <VideoLazy src="/videos/reportage-crtv-2026-11-17.mp4" titre="Reportage CRTV du 17 novembre 2026" />
+      </div>
     </div>
   </section>
 </Base>

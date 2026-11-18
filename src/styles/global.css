@@ -8,6 +8,7 @@
   --color-vert: #1e4d2b;
   --color-vert-fonce: #163a20;
   --color-or: #a8801f;
+  --color-or-clair: #f0cf6a;
   --color-ndop: #1f3c5e;
   --color-gris: #f4f4f1;
   --color-trait: #e4e4df;
@@ -61,9 +62,15 @@
   .wrap-narrow { @apply mx-auto w-full max-w-3xl px-5 sm:px-8; }
   .section { @apply py-16 sm:py-24 lg:py-32; }
   .section-tight { @apply py-12 sm:py-16 lg:py-20; }
-  .eyebrow { @apply flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-vert; }
-  .eyebrow::before { content: ''; @apply h-px w-6 bg-or; }
-  .musee .eyebrow { @apply text-ndop; }
+  .eyebrow { @apply flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-or; }
+  .eyebrow::before { content: ''; @apply h-0.5 w-7 bg-vert; }
+  .musee .eyebrow::before { @apply bg-ndop; }
+  .titre { @apply text-vert; }
+  .musee .titre { @apply text-ndop; }
+  .filet-or { @apply mt-5 block h-0.5 w-16 bg-or; }
+  /* Cadre ndop : motif géométrique original (lignes brisées, cercles, damiers) autour d'une image */
+  .ndop-frame { padding: 10px; background-color: #1f3c5e; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='14'%3E%3Crect width='56' height='14' fill='%231f3c5e'/%3E%3Cpolyline points='0,11 4,3 8,11 12,3 16,11' fill='none' stroke='%23fff' stroke-width='1.2' stroke-linejoin='round'/%3E%3Ccircle cx='24' cy='7' r='2.6' fill='none' stroke='%23fff' stroke-width='1.2'/%3E%3Ccircle cx='24' cy='7' r='0.8' fill='%23fff'/%3E%3Crect x='32' y='2' width='3' height='3' fill='%23fff'/%3E%3Crect x='35' y='5' width='3' height='3' fill='%23fff'/%3E%3Crect x='32' y='8' width='3' height='3' fill='%23fff'/%3E%3Crect x='38' y='2' width='3' height='3' fill='%23fff'/%3E%3Crect x='38' y='8' width='3' height='3' fill='%23fff'/%3E%3Cpolyline points='44,3 48,11 52,3 56,11' fill='none' stroke='%23fff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  .ndop-frame > * { display: block; outline: 3px solid #fff; }
   .lead { @apply text-lg sm:text-xl leading-relaxed text-muted; }
   .prose-site { @apply text-[1.05rem] leading-relaxed text-encre/90 space-y-5; }
   .prose-site a:not(.btn-primary):not(.btn-outline) { @apply underline decoration-or/60 hover:decoration-or; }
@@ -72,9 +79,10 @@
   .btn-outline {
     @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-[0.95rem] font-semibold no-underline transition-colors;
   }
-  .btn-primary { @apply bg-vert text-white hover:bg-vert-fonce; }
-  .musee .btn-primary { @apply bg-ndop hover:bg-[#162c47]; }
-  .btn-outline { @apply border border-encre/25 text-encre hover:border-encre; }
+  .btn-primary { @apply bg-vert text-or-clair hover:bg-vert-fonce; }
+  .musee .btn-primary { @apply bg-ndop text-or-clair hover:bg-[#162c47]; }
+  .btn-outline { @apply border-2 border-or text-vert hover:bg-or/10; }
+  .musee .btn-outline { @apply text-ndop; }
   .btn-link { @apply inline-flex min-h-11 items-center gap-1 font-semibold text-vert underline decoration-or/50 underline-offset-4 hover:decoration-or; }
   .musee .btn-link { @apply text-ndop; }
 
