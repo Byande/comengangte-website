@@ -5,15 +5,17 @@
  */
 interface Props {
   class?: string;
+  /** Hauteur en pixels (le motif est dessiné à 14 px et mis à l'échelle). */
   hauteur?: number;
 }
-const { class: cls = '', hauteur = 14 } = Astro.props;
+const { class: cls = '', hauteur = 12 } = Astro.props;
+const echelle = hauteur / 14;
 const id = `ndop-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<svg class:list={['block w-full', cls]} style={`height:${hauteur}px`} aria-hidden="true" preserveAspectRatio="none" role="presentation">
+<svg class:list={['block w-full', cls]} style={`height:${hauteur}px`} aria-hidden="true" role="presentation">
   <defs>
-    <pattern id={id} width="56" height="14" patternUnits="userSpaceOnUse">
+    <pattern id={id} width="56" height="14" patternUnits="userSpaceOnUse" patternTransform={`scale(${echelle})`}>
       <rect width="56" height="14" fill="#1f3c5e"></rect>
       <polyline points="0,11 4,3 8,11 12,3 16,11" fill="none" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"></polyline>
       <circle cx="24" cy="7" r="2.6" fill="none" stroke="#fff" stroke-width="1.2"></circle>

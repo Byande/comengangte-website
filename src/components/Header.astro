@@ -27,7 +27,7 @@ const actif = (href: string) => path === href || (href !== '/' && path.startsWit
       <Image src={logo} alt="" width={44} height={44} class="h-10 w-10 shrink-0 rounded-full sm:h-11 sm:w-11" loading="eager" />
       <span class="flex flex-col leading-none">
         <span class="font-serif text-[1.15rem] font-semibold tracking-tight sm:text-[1.3rem]">{site.nom}</span>
-        <span class="mt-1 hidden text-[0.7rem] uppercase tracking-[0.14em] text-muted md:block">{site.nomLong}</span>
+        <span class="mt-1 hidden text-[0.7rem] uppercase tracking-[0.14em] text-muted md:block lg:hidden xl:block">{site.nomLong}</span>
       </span>
     </a>
 
@@ -40,7 +40,7 @@ const actif = (href: string) => path === href || (href !== '/' && path.startsWit
                 href={l.href}
                 aria-current={actif(l.href) ? 'page' : undefined}
                 class:list={[
-                  'inline-flex min-h-11 items-center rounded-full px-4 text-[0.95rem] font-medium transition-colors hover:bg-gris',
+                  'inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-3 text-[0.95rem] font-medium transition-colors hover:bg-gris xl:px-4',
                   actif(l.href) ? (musee ? 'text-ndop' : 'text-vert') : 'text-encre',
                   actif(l.href) && 'underline decoration-or underline-offset-8',
                 ]}

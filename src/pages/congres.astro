@@ -14,6 +14,7 @@ const tempsForts = [
   { titre: 'Cérémonies protocolaires', texte: 'Cérémonies protocolaires autour de Sa Majesté le Roi.' },
 ];
 
+const fmt = (iso: string) => new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Africa/Douala' }).format(new Date(iso));
 const congres = import.meta.glob<ImageMetadata>('/src/assets/congres/*.jpeg', { eager: true, import: 'default' });
 const photos = Object.values(congres).slice(0, 6);
 ---
@@ -62,7 +63,7 @@ const photos = Object.values(congres).slice(0, 6);
       <ol class="mt-8 grid gap-px overflow-hidden rounded-md border border-trait bg-trait sm:grid-cols-2 lg:grid-cols-4" id="programme-liste">
         <li class="bg-white p-5 sm:p-6">
           <p class="font-serif text-lg">Ouverture</p>
-          <p class="mt-1 text-sm text-muted">{site.edition.datesCourtes.split(' – ')[0]}</p>
+          <p class="mt-1 text-sm text-muted">{fmt(site.edition.debut)}</p>
           <p class="mt-3 text-sm text-muted">Détails à venir.</p>
         </li>
         <li class="bg-white p-5 sm:p-6">
@@ -77,7 +78,7 @@ const photos = Object.values(congres).slice(0, 6);
         </li>
         <li class="bg-white p-5 sm:p-6">
           <p class="font-serif text-lg">Clôture</p>
-          <p class="mt-1 text-sm text-muted">{site.edition.datesCourtes.split(' – ')[1]}</p>
+          <p class="mt-1 text-sm text-muted">{fmt(site.edition.fin)}</p>
           <p class="mt-3 text-sm text-muted">Détails à venir.</p>
         </li>
       </ol>

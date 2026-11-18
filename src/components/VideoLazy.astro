@@ -5,23 +5,26 @@ import type { ImageMetadata } from 'astro';
 /**
  * Vidéo chargée à la demande : seule l'image d'aperçu est chargée au départ,
  * le fichier vidéo n'est demandé qu'au clic.
+ * L'aperçu est cherché dans src/assets/posters/<nom-du-fichier-vidéo>.jpg.
  */
 interface Props {
   src: string;
   titre: string;
-  poster?: ImageMetadata;
-  posterUrl?: string;
   legende?: string;
+  /** Vidéo verticale (téléphone) : cadre 9/16 au lieu de 16/9. */
+  portrait?: boolean;
 }
-const { src, titre, poster, posterUrl, legende } = Astro.props;
+const { src, titre, legende, portrait = false } = Astro.props;
+const posters = import.meta.glob<ImageMetadata>('/src/assets/posters/*.jpg', { eager: true, import: 'default' });
+const nom = src.split('/').pop()?.replace(/\.[^.]+$/, '');
+const poster = Object.entries(posters).find(([p]) => p.endsWith(`/${nom}.jpg`))?.[1];
 ---
 
 <figure class="video-lazy" data-src={src}>
-  <div class="relative aspect-video overflow-hidden bg-gris">
-    {poster && <Image src={poster} alt="" width={1280} height={720} class="h-full w-full object-cover" loading="lazy" data-poster />}
-    {!poster && posterUrl && <img src={posterUrl} alt="" width="1280" height="720" class="h-full w-full object-cover" loading="lazy" data-poster />}
-    <video class="hidden h-full w-full bg-black" controls preload="none" playsinline data-video poster={posterUrl}>
-      <track kind="captions" label="Sous-titres à fournir" />
+  <div class:list={['relative overflow-hidden bg-gris', portrait ? 'aspect-[9/16]' : 'aspect-video']}>
+    {poster && <Image src={poster} alt="" widths={portrait ? [360, 540, 720] : [640, 960, 1280]} sizes={portrait ? '(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 60vw, 100vw'} class="h-full w-full object-cover" loading="lazy" data-poster />}
+    <video class="hidden h-full w-full bg-black" controls preload="none" playsinline data-video>
+      <track kind="captions" />
     </video>
     <button
       type="button"

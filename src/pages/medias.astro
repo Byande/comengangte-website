@@ -5,13 +5,18 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import VideoLazy from '../components/VideoLazy.astro';
 import NdopBand from '../components/NdopBand.astro';
-import palais from '../assets/lieux/ancien-palais-royal-2.jpg';
 
 const congres = import.meta.glob<ImageMetadata>('/src/assets/congres/*.jpeg', { eager: true, import: 'default' });
 const photos = Object.entries(congres)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([, img]) => img);
-const videos = [1, 2, 3, 4, 5].map((n) => ({ src: `/videos/congres-passe-0${n}.mp4`, titre: `Vidéo des congrès passés ${n}`, poster: photos[(n * 7) % photos.length] }));
+const videos = [
+  { src: '/videos/congres-passe-01.mp4', titre: 'Vidéo des congrès passés 1', portrait: true },
+  { src: '/videos/congres-passe-02.mp4', titre: 'Vidéo des congrès passés 2', portrait: true },
+  { src: '/videos/congres-passe-03.mp4', titre: 'Vidéo des congrès passés 3', portrait: true },
+  { src: '/videos/congres-passe-04.mp4', titre: 'Vidéo des congrès passés 4', portrait: false },
+  { src: '/videos/congres-passe-05.mp4', titre: 'Vidéo des congrès passés 5', portrait: true },
+];
 ---
 
 <Base title="Médias" description="Reportage CRTV du 17 novembre 2026, galerie « Mémoire des congrès » et vidéos des congrès passés.">
@@ -20,7 +25,7 @@ const videos = [1, 2, 3, 4, 5].map((n) => ({ src: `/videos/congres-passe-0${n}.m
   <section class="wrap pb-16 sm:pb-24" aria-labelledby="crtv">
     <h2 id="crtv" class="text-2xl sm:text-3xl">Reportage CRTV, 17 novembre 2026</h2>
     <div class="mt-6">
-      <VideoLazy src="/videos/reportage-crtv-2026-11-17.mp4" titre="Reportage CRTV du 17 novembre 2026" poster={palais} legende="Reportage diffusé sur la CRTV le 17 novembre 2026." />
+      <VideoLazy src="/videos/reportage-crtv-2026-11-17.mp4" titre="Reportage CRTV du 17 novembre 2026" legende="Reportage diffusé sur la CRTV le 17 novembre 2026." />
     </div>
   </section>
 
@@ -44,13 +49,26 @@ const videos = [1, 2, 3, 4, 5].map((n) => ({ src: `/videos/congres-passe-0${n}.m
   <section class="wrap section-tight border-t border-trait" aria-labelledby="videos">
     <p class="eyebrow">Vidéos</p>
     <h2 id="videos" class="mt-2 text-3xl sm:text-4xl">Les congrès en images animées</h2>
-    <ul class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
       {
-        videos.map((v) => (
-          <li>
-            <VideoLazy src={v.src} titre={v.titre} poster={v.poster} legende={v.titre} />
-          </li>
-        ))
+        videos
+          .filter((v) => v.portrait)
+          .map((v) => (
+            <li>
+              <VideoLazy src={v.src} titre={v.titre} portrait legende={v.titre} />
+            </li>
+          ))
+      }
+    </ul>
+    <ul class="mt-8 grid gap-6 md:grid-cols-2">
+      {
+        videos
+          .filter((v) => !v.portrait)
+          .map((v) => (
+            <li>
+              <VideoLazy src={v.src} titre={v.titre} legende={v.titre} />
+            </li>
+          ))
       }
     </ul>
   </section>

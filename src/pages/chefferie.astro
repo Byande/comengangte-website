@@ -16,9 +16,7 @@ import embleme from '../assets/fresques/embleme-facade-01.jpeg';
   <PageHero eyebrow={site.chefferie.nom} titre="La Chefferie" lead={`« ${site.devise} ». Chefferie supérieure du groupement Bangangté, département du Ndé, région de l’Ouest, Cameroun.`}>
     <p class="mt-8 text-[0.98rem] text-muted">
       Pour l’histoire et le royaume, consultez le site de la chefferie :
-      <a href={site.chefferie.historique} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Historique</a>
-      ·
-      <a href={site.chefferie.royaume} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Royaume</a>
+      <a href={site.chefferie.historique} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Historique</a>{' · '}<a href={site.chefferie.royaume} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Royaume</a>
     </p>
   </PageHero>
 
