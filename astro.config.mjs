@@ -9,7 +9,13 @@ export default defineConfig({
   site: site.url,
   output: 'static',
   trailingSlash: 'never',
-  integrations: [sitemap()],
+  // Pages en fichiers plats (musee.html) : Netlify sert /musee sans ajouter de barre oblique.
+  build: { format: 'file' },
+  integrations: [
+    sitemap({
+      serialize: (item) => ({ ...item, url: item.url.replace(/\.html$/, '').replace(/\/index$/, '/') }),
+    }),
+  ],
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr', 'en', 'mdm'],

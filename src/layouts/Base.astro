@@ -17,7 +17,8 @@ interface Props {
 
 const { title, description, musee = false, image = '/logo-comengangte.png', type = 'website' } = Astro.props;
 const titreComplet = title === site.nom ? `${site.nom} · ${site.nomLong}` : `${title} · ${site.nom}`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const chemin = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
+const canonical = new URL(chemin, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
 

@@ -8,7 +8,7 @@ interface Props {
   musee?: boolean;
 }
 const { musee = false } = Astro.props;
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/$/, '') || '/';
 
 const liens = [
   { href: '/congres', label: t('nav.congres') },
