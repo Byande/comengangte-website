@@ -13,6 +13,9 @@ import { site } from '../config/site';
       <p class="font-serif text-lg">Contribuer à l’histoire d’un objet</p>
       <p class="mt-1 text-sm text-muted">Votre témoignage sera transmis aux notables et détenteurs de savoirs de la chefferie pour validation.</p>
     </div>
+    <p class="mb-6 hidden rounded-md border border-or/40 bg-gris p-4 text-sm" data-erreur role="alert">
+      Le message n’a pas pu être envoyé : vérifiez votre nom, votre adresse e-mail et votre message, puis réessayez.
+    </p>
     <Formulaire nom="contact" sujet="Contact via le site du COMENGA" champs={[{ name: 'objet', label: 'Objet concerné (facultatif)' }]} />
     <p class="mt-10 text-sm text-muted">
       Partenaire scientifique du musée : {site.partenaire.nom}, <a href={`mailto:${site.partenaire.contact}`} class="underline underline-offset-4">{site.partenaire.contact}</a>.
@@ -22,6 +25,7 @@ import { site } from '../config/site';
 
 <script>
   const params = new URLSearchParams(location.search);
+  if (params.get('erreur')) document.querySelector<HTMLElement>('[data-erreur]')?.classList.remove('hidden');
   if (params.get('sujet') === 'histoire') {
     document.querySelector<HTMLElement>('[data-encart-histoire]')?.classList.remove('hidden');
     const objet = document.getElementById('contact-objet') as HTMLInputElement | null;

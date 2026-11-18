@@ -18,26 +18,29 @@ npm run build
 npm run preview
 ```
 
-## Déployer
+## Déployer sur Hostinger (hébergement du comité, domaine comengangte.com)
 
-Le site se déploie sur n'importe quel hébergeur statique. Le fichier `netlify.toml` est prêt pour Netlify.
+Le site est publié selon la filière habituelle **GitHub → Hostinger (Avancé → GIT, déploiement automatique)**, avec une différence : un site Astro doit être **construit** avant d'être servi. La construction est automatisée par GitHub Actions.
 
-**Netlify, en ligne de commande** (une seule fois : `npm install -g netlify-cli` puis `netlify login`) :
+- Branche `main` : le code source (ce dossier).
+- Branche `hostinger` : le site construit (contenu de `dist/`), produite automatiquement à chaque push sur `main` par `.github/workflows/hostinger.yml`. C'est **cette branche** que Hostinger clone.
 
-```bash
-npm run build
-netlify deploy --prod --dir=dist
-```
+**Mise en place, une seule fois (hPanel)**
 
-**Netlify, depuis GitHub** : pousser le dossier `site/` dans un dépôt, puis « Add new site → Import an existing project ». Commande de build `npm run build`, dossier de publication `dist`. Les formulaires (contact, soutenir, contribuer) sont alors captés automatiquement par Netlify Forms : activer les notifications par e-mail dans *Site settings → Forms → Form notifications*.
+1. Pousser ce dossier sur un dépôt GitHub public dédié, par exemple `Byande/comengangte-website`, branche `main`. Attendre la fin de l'action GitHub (onglet *Actions*) : la branche `hostinger` apparaît.
+2. hpanel.hostinger.com → *Sites web* → le site rattaché à `comengangte.com` → *Avancé → GIT*.
+3. *Création d'un nouveau dépôt* : dépôt `https://github.com/Byande/comengangte-website.git`, branche **`hostinger`**, répertoire vide → *Créer*.
+4. *Déployer*, puis *Déploiement automatique* (webhook GitHub).
+5. *Avancé → SSL* : vérifier que le certificat est actif.
+6. Formulaires : copier `formulaire-config.exemple.php` en `formulaire-config.php` (via le gestionnaire de fichiers Hostinger, à la racine du site, ou dans `public/` avant de pousser) et y mettre l'adresse e-mail du comité. Créer chez Hostinger l'adresse expéditrice (par exemple `site@comengangte.com`). Tant que l'adresse n'est pas renseignée, les messages sont consignés dans `formulaires-en-attente.log` sur le serveur.
 
-**Vercel** : `npx vercel --prod` (framework détecté : Astro). **Cloudflare Pages** : commande de build `npm run build`, dossier `dist`. Dans ces deux cas, passer `formulaires.mode` à `'endpoint'` (Formspree, Basin, Web3Forms…) ou `'mailto'` dans `src/config/site.ts`.
+**Mises à jour ensuite** : modifier, `git commit`, `git push` sur `main`. GitHub construit le site (environ deux minutes) et Hostinger redéploie tout seul. Sans GitHub Actions, `npm run deploy:hostinger` fait la même chose depuis cet ordinateur.
+
+**Autres hébergeurs** (secours) : `netlify.toml` est prêt pour Netlify (`npx netlify deploy --prod --dir=dist`) ; Vercel et Cloudflare Pages acceptent `npm run build` et le dossier `dist`. Dans ces cas, adapter `formulaires` dans `src/config/site.ts` (le script PHP ne fonctionne que sur un hébergement PHP comme Hostinger).
 
 ## Brancher le nom de domaine
 
-1. Le domaine `comengangte.com` est enregistré chez Hostinger.
-2. Chez l'hébergeur : *Domain management → Add a domain*, puis suivre les enregistrements DNS indiqués (CNAME ou A).
-3. Mettre à jour `url` dans `src/config/site.ts` et `Sitemap:` dans `public/robots.txt`, puis redéployer. Le certificat HTTPS est fourni automatiquement.
+Le domaine `comengangte.com` est enregistré chez Hostinger et déjà rattaché à l'hébergement. Si le site est un jour hébergé ailleurs : *Domaines → DNS* chez Hostinger, enregistrement A (`@`) vers l'adresse de l'hébergeur et CNAME `www`. Mettre à jour `url` dans `src/config/site.ts` et `Sitemap:` dans `public/robots.txt`, puis redéployer.
 
 ## Ajouter un objet en 3 étapes
 

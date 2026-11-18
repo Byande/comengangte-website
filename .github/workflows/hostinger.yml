@@ -1,0 +1,32 @@
+# À chaque push sur main : construit le site et publie dist/ sur la branche `hostinger`,
+# que l'hébergement Hostinger (Avancé → GIT, déploiement automatique) récupère.
+name: Construire et publier pour Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Publier dist/ sur la branche hostinger
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: hostinger
+          force_orphan: true
+          enable_jekyll: true
+          commit_message: "Site construit depuis ${{ github.sha }}"

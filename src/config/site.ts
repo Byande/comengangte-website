@@ -55,15 +55,16 @@ export const site = {
   },
 
   /**
-   * Formulaires (contact, soutenir, contribuer une histoire), sans serveur.
-   * - mode 'netlify' : les formulaires sont captés par Netlify Forms après déploiement sur Netlify.
-   * - mode 'endpoint' : envoi POST vers `endpoint` (Formspree, Basin, Web3Forms…).
+   * Formulaires (contact, soutenir, contribuer une histoire).
+   * - mode 'endpoint' : envoi POST vers `endpoint`. Sur Hostinger : '/formulaire.php' (fourni dans public/),
+   *   qui envoie un e-mail à l'adresse définie dans public/formulaire-config.php. Fonctionne aussi avec un
+   *   service externe (Formspree, Basin, Web3Forms…).
+   * - mode 'netlify' : formulaires captés par Netlify Forms (hébergement Netlify uniquement).
    * - mode 'mailto' : ouverture du client de messagerie vers `contactEmail`.
-   * Si `contactEmail` est renseigné, il sert aussi de repli quand l'envoi échoue.
    */
   formulaires: {
-    mode: 'netlify' as 'netlify' | 'endpoint' | 'mailto',
-    endpoint: '',
+    mode: 'endpoint' as 'netlify' | 'endpoint' | 'mailto',
+    endpoint: '/formulaire.php',
     /** Adresse de contact publique du COMENGA : à fournir par le comité. */
     contactEmail: '',
   },
