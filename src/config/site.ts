@@ -3,8 +3,8 @@
  * Tout ce qui peut changer d'une édition à l'autre se modifie ici, et seulement ici.
  */
 export const site = {
-  /** Nom de domaine visé (disponibilité à vérifier). Ne pas coder en dur ailleurs. */
-  url: 'https://comenga.com',
+  /** Nom de domaine du site. Ne pas coder en dur ailleurs. */
+  url: 'https://comengangte.com',
   nom: "COMENGA'NGTE",
   nomLong: 'Congrès Mondial des Filles et Fils Bangangté',
   nomAnglais: 'World Congress of the Ngangte People',

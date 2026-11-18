@@ -35,7 +35,7 @@ netlify deploy --prod --dir=dist
 
 ## Brancher le nom de domaine
 
-1. Vérifier la disponibilité du domaine (par exemple `comenga.com`) et l'acheter chez un registraire.
+1. Le domaine `comengangte.com` est enregistré chez Hostinger.
 2. Chez l'hébergeur : *Domain management → Add a domain*, puis suivre les enregistrements DNS indiqués (CNAME ou A).
 3. Mettre à jour `url` dans `src/config/site.ts` et `Sitemap:` dans `public/robots.txt`, puis redéployer. Le certificat HTTPS est fourni automatiquement.
 

@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://comenga.com/sitemap-index.xml
+Sitemap: https://comengangte.com/sitemap-index.xml
