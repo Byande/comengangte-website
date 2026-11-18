@@ -21,7 +21,7 @@ const photos = Object.values(congres).slice(0, 6);
 ---
 
 <Base title="Le Congrès" description={`Le ${site.nomLong} : présentation, temps forts, programme et éditions passées. Édition ${site.edition.annee} ${site.edition.datesTexte.toLowerCase()}.`}>
-  <PageHero eyebrow={`Édition ${site.edition.annee}`} titre="Le Congrès" lead={`${site.edition.datesTexte}, ${site.edition.lieu.toLowerCase()}. Le rendez-vous, tous les deux ans, de la diaspora et des Bangangté du pays autour de Sa Majesté le Roi.`} />
+  <PageHero eyebrow={`${site.edition.numeroTexte} · ${site.edition.annee}`} titre="Le Congrès" lead={`${site.edition.datesTexte}, ${site.edition.lieu.toLowerCase()}. Le rendez-vous, tous les deux ans, de la diaspora et des Bangangté du pays autour de Sa Majesté le Roi.`} />
 
   <section class="wrap grid gap-10 pb-16 sm:pb-24 lg:grid-cols-12 lg:gap-14">
     <div class="ndop-frame lg:col-span-7">
@@ -96,7 +96,7 @@ const photos = Object.values(congres).slice(0, 6);
   <section class="wrap section-tight" aria-labelledby="editions">
     <p class="eyebrow">Éditions passées</p>
     <h2 id="editions" class="titre mt-2 text-3xl sm:text-4xl">Mémoire des congrès</h2>
-    <ol class="mt-10 grid gap-8 sm:grid-cols-3">
+    <ol class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
       {
         site.editionsPassees.map((e) => (
           <li class="border-t border-trait pt-5">

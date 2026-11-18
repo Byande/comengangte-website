@@ -27,7 +27,7 @@ const entrees = [
       <h1 class="titre mt-3 text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-7xl">{site.signature}</h1>
       <span class="filet-or" aria-hidden="true"></span>
       <p class="lead mt-6">
-        Édition {site.edition.annee} · {site.edition.datesTexte.toLowerCase()}<br />
+        {site.edition.numeroTexte} · {site.edition.annee} · {site.edition.datesTexte.toLowerCase()}<br />
         {site.edition.lieu}, {site.edition.lieuDetail}.
       </p>
       <p class="mt-5 max-w-xl font-serif text-lg italic text-vert sm:text-xl">« {site.edition.theme} »</p>
@@ -102,7 +102,7 @@ const entrees = [
 
   <section class="wrap section grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14" aria-labelledby="affiche">
     <div class="lg:col-span-5">
-      <p class="eyebrow">Édition {site.edition.annee}</p>
+      <p class="eyebrow">{site.edition.numeroTexte} · {site.edition.annee}</p>
       <h2 id="affiche" class="titre mt-2 text-3xl sm:text-4xl">L’affiche officielle</h2>
       <p class="prose-site mt-6">{site.edition.parrainage}. Thème : « {site.edition.theme} ».</p>
       <a href="/congres" class="btn-primary mt-8">Le Congrès</a>

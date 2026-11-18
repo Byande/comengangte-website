@@ -14,6 +14,8 @@ export const site = {
 
   edition: {
     annee: 2026,
+    numero: 5,
+    numeroTexte: '5e édition',
     /** Dates ISO (heure locale du Cameroun, UTC+1). */
     debut: '2026-11-25T00:00:00+01:00',
     fin: '2026-12-06T23:59:59+01:00',
@@ -28,7 +30,8 @@ export const site = {
 
   editionsPassees: [
     { annee: 2017, titre: '1er congrès', dates: '8, 9 et 10 décembre 2017', theme: 'Le réveil du peuple bangangté : solidarité et développement' },
-    { annee: 2022, titre: 'Congrès 2022', dates: 'Décembre 2022', theme: null },
+    { annee: 2019, titre: '2e congrès', dates: '2019', theme: null },
+    { annee: 2022, titre: '3e congrès', dates: 'Décembre 2022', theme: null },
     { annee: 2024, titre: '4e congrès', dates: 'Du 8 au 14 décembre 2024', theme: null },
   ],
 
