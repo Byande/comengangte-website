@@ -65,8 +65,8 @@ export const site = {
   formulaires: {
     mode: 'endpoint' as 'netlify' | 'endpoint' | 'mailto',
     endpoint: '/formulaire.php',
-    /** Adresse de contact publique du COMENGA : à fournir par le comité. */
-    contactEmail: '',
+    /** Adresse de contact publique du COMENGA. */
+    contactEmail: 'contact@comengangte.com',
   },
 
   /** Éditeur du site (mentions légales) : à compléter par le comité. */
