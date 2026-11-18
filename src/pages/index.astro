@@ -20,8 +20,8 @@ const entrees = [
 
 <Base title={site.nom} description={`${site.nomLong}. ${site.signature}. Édition ${site.edition.annee} : ${site.edition.datesTexte.toLowerCase()}, ${site.edition.lieu}.`}>
   <section class="relative overflow-hidden">
-    <Panthere class="absolute -right-10 top-10 hidden w-[520px] text-vert opacity-[0.045] lg:block" />
-    <div class="wrap relative pt-14 pb-16 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32">
+    <Panthere class="absolute right-[max(1rem,calc((100vw-72rem)/2))] top-1/2 hidden w-[min(42vw,560px)] -translate-y-1/2 text-or opacity-[0.22] md:block" />
+    <div class="wrap relative pt-14 pb-10 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32">
       <div class="max-w-3xl">
         <Image src={logo} alt={`Logo du ${site.nom}`} width={96} height={96} class="h-20 w-20 rounded-full sm:h-24 sm:w-24" loading="eager" />
         <p class="eyebrow mt-8">{site.nomLong}</p>
@@ -34,6 +34,7 @@ const entrees = [
           <Countdown />
         </div>
       </div>
+      <Panthere class="-mb-2 -mr-5 mt-6 ml-auto w-[72%] max-w-[320px] text-or opacity-[0.26] md:hidden" />
     </div>
   </section>
 
@@ -44,10 +45,10 @@ const entrees = [
       {
         entrees.map((e) => (
           <li class="bg-white">
-            <a href={e.href} class="group flex h-full flex-col p-6 sm:p-8">
-              <h2 class="text-2xl group-hover:underline decoration-or/60 underline-offset-4">{e.titre}</h2>
+            <a href={e.href} class="group flex h-full flex-col border-t-2 border-vert p-6 transition-colors hover:bg-gris sm:p-8">
+              <h2 class="text-2xl text-vert">{e.titre}</h2>
               <p class="mt-3 text-[0.98rem] leading-relaxed text-muted">{e.texte}</p>
-              <span class="mt-auto pt-6 text-sm font-semibold text-vert">Découvrir →</span>
+              <span class="mt-auto pt-6 text-sm font-semibold text-or">Découvrir →</span>
             </a>
           </li>
         ))
@@ -58,12 +59,12 @@ const entrees = [
   <section class="wrap section grid gap-10 border-t border-trait lg:grid-cols-12 lg:gap-12" aria-labelledby="marraine">
     <div class="lg:col-span-5">
       <p class="eyebrow">Sous le haut patronage</p>
-      <h2 id="marraine" class="mt-2 text-3xl sm:text-4xl">{site.personnalites.roi.nom}</h2>
+      <h2 id="marraine" class="mt-2 text-3xl text-vert sm:text-4xl">{site.personnalites.roi.nom}</h2>
       <p class="mt-2 text-lg text-muted">{site.personnalites.roi.titre}</p>
     </div>
     <div class="lg:col-span-7 lg:border-l lg:border-trait lg:pl-12">
       <p class="eyebrow">Marraine</p>
-      <h2 class="mt-2 text-3xl sm:text-4xl">{site.personnalites.marraine.nom}</h2>
+      <h2 class="mt-2 text-3xl text-vert sm:text-4xl">{site.personnalites.marraine.nom}</h2>
       <p class="mt-2 text-lg text-muted">{site.personnalites.marraine.titre} du projet de musée</p>
       <p class="prose-site mt-6 max-w-prose">
         Le congrès réunit chaque année la diaspora et les Bangangté du pays autour de Sa Majesté le Roi. L’édition {site.edition.annee} contribue à

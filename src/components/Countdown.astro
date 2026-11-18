@@ -22,11 +22,11 @@ const etatInit = maintenant >= fin ? t('compte.termine') : maintenant >= debut ?
   aria-live="polite"
 >
   <p class="whitespace-nowrap" hidden={!!etatInit}>
-    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-jours>{joursInit}</span>{' '}
+    <span class="font-serif text-5xl font-medium tabular-nums text-vert sm:text-6xl" data-jours>{joursInit}</span>{' '}
     <span class="ml-1 text-sm uppercase tracking-[0.16em] text-muted">{t('compte.jours')}</span>
   </p>
   <p class="whitespace-nowrap" hidden={!!etatInit}>
-    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-heures>{heuresInit}</span>{' '}
+    <span class="font-serif text-5xl font-medium tabular-nums text-vert sm:text-6xl" data-heures>{heuresInit}</span>{' '}
     <span class="ml-1 text-sm uppercase tracking-[0.16em] text-muted">{t('compte.heures')}</span>
   </p>
   <p class="w-full font-serif text-xl" data-etat hidden={!etatInit}>{etatInit}</p>

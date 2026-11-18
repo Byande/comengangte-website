@@ -71,14 +71,14 @@ import embleme from '../assets/fresques/embleme-facade-01.jpeg';
   </section>
 
   <section class="wrap section relative overflow-hidden" aria-labelledby="symboles">
-    <Panthere class="absolute -left-16 bottom-0 hidden w-[420px] text-vert opacity-[0.04] lg:block" />
+    <Panthere class="absolute right-[max(1rem,calc((100vw-72rem)/2))] top-10 hidden w-[min(30vw,420px)] text-or opacity-[0.22] md:block" />
     <div class="relative">
       <p class="eyebrow">Les symboles</p>
       <h2 id="symboles" class="mt-2 text-3xl sm:text-4xl">La panthère et le ndop</h2>
       <div class="mt-10 grid gap-10 md:grid-cols-2 md:gap-14">
         <div>
           <Image src={fresque} alt="Fresque peinte à la chefferie : une panthère sur fond orangé, encadrée d’or, sur un mur bleu." widths={[400, 600, 800]} sizes="(min-width: 768px) 45vw, 100vw" class="aspect-[4/5] w-full rounded-sm object-cover" />
-          <h3 class="mt-6 text-2xl">La panthère, Nzui Manto</h3>
+          <h3 class="mt-6 text-2xl text-vert">La panthère, Nzui Manto</h3>
           <p class="mt-2 text-[0.98rem] leading-relaxed text-muted">Emblème royal. Elle figure sur le logo du congrès, sur la banderole et sur la fresque de la chefferie.</p>
         </div>
         <div>
@@ -86,7 +86,7 @@ import embleme from '../assets/fresques/embleme-facade-01.jpeg';
             <Image src={ndop} alt="Un enfant vêtu d’un tissu ndop indigo à motifs blancs, coiffé d’un bonnet tricoté." widths={[300, 450, 600]} sizes="(min-width: 768px) 22vw, 50vw" class="aspect-[4/5] w-full rounded-sm object-cover" />
             <Image src={embleme} alt="Emblème peint sur une façade de la chefferie : un personnage en tenue indigo à motifs, bras levés." widths={[300, 450, 600]} sizes="(min-width: 768px) 22vw, 50vw" class="aspect-[4/5] w-full rounded-sm object-cover" />
           </div>
-          <h3 class="mt-6 text-2xl">Le ndop</h3>
+          <h3 class="mt-6 text-2xl text-ndop">Le ndop</h3>
           <p class="mt-2 text-[0.98rem] leading-relaxed text-muted">Tissu royal bleu indigo à motifs blancs des Grassfields. On le retrouve sur les façades peintes de la chefferie.</p>
         </div>
       </div>

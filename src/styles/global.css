@@ -61,7 +61,8 @@
   .wrap-narrow { @apply mx-auto w-full max-w-3xl px-5 sm:px-8; }
   .section { @apply py-16 sm:py-24 lg:py-32; }
   .section-tight { @apply py-12 sm:py-16 lg:py-20; }
-  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.18em] text-vert; }
+  .eyebrow { @apply flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-vert; }
+  .eyebrow::before { content: ''; @apply h-px w-6 bg-or; }
   .musee .eyebrow { @apply text-ndop; }
   .lead { @apply text-lg sm:text-xl leading-relaxed text-muted; }
   .prose-site { @apply text-[1.05rem] leading-relaxed text-encre/90 space-y-5; }
