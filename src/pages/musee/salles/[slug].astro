@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import ObjetCard from '../../../components/ObjetCard.astro';
+import { objetsPublics, objetsDeSalle, salles, type Salle } from '../../../lib/objets';
+import { site } from '../../../config/site';
+import palais from '../../../assets/lieux/ancien-palais-royal-2.jpg';
+import ndop from '../../../assets/chefferie/enfant-tissu-ndop.jpg';
+import mains from '../../../assets/chefferie/mains-unies.jpg';
+
+export async function getStaticPaths() {
+  return salles.map((salle) => ({ params: { slug: salle.slug }, props: { salle } }));
+}
+const { salle } = Astro.props as { salle: Salle };
+const objets = objetsDeSalle(salle, await objetsPublics());
+const index = salles.findIndex((s) => s.slug === salle.slug);
+const precedente = salles[(index - 1 + salles.length) % salles.length];
+const suivante = salles[(index + 1) % salles.length];
+
+const illustrations: Record<string, { src: ImageMetadata; alt: string } | undefined> = {
+  'architecture-du-temps': { src: palais, alt: 'L’ancien palais royal de Bangangté, vu de face, avec des visiteurs sur l’esplanade.' },
+  'patrimoine-vivant-identite': { src: ndop, alt: 'Un enfant vêtu d’un tissu ndop indigo à motifs blancs, coiffé d’un bonnet tricoté.' },
+  'histoire-civilisation-migration': { src: mains, alt: 'Des mains réunies au-dessus d’un tissu ndop, lors d’une rencontre à la chefferie.' },
+};
+const illustration = illustrations[salle.slug];
+---
+
+<Base title={`Salle ${salle.numero} · ${salle.titre}`} description={salle.propos} musee>
+  <PageHero eyebrow={`Salle ${salle.numero} sur 4`} titre={salle.titre} lead={salle.propos} />
+
+  {
+    illustration && (
+      <div class="wrap">
+        <Image src={illustration.src} alt={illustration.alt} widths={[640, 960, 1280, 1600]} sizes="(min-width: 1152px) 1152px, 100vw" class="aspect-[16/9] w-full rounded-sm object-cover sm:aspect-[21/9]" loading="eager" />
+      </div>
+    )
+  }
+
+  {
+    salle.slug === 'architecture-du-temps' && (
+      <section class="wrap-narrow section-tight prose-site">
+        <p>L’ancien palais royal se trouve à l’entrée de la cour de la chefferie. Il offre environ 369 m² exploitables et a été retenu pour accueillir le musée.</p>
+        <p>Le patrimoine bâti de la chefferie comprend aussi la maison de la Reine blanche.</p>
+      </section>
+    )
+  }
+  {
+    salle.slug === 'patrimoine-vivant-identite' && (
+      <section class="wrap-narrow section-tight prose-site">
+        <p>Le patrimoine immatériel de Bangangté comprend les danses Mangan Mbeu et Bensikin, ainsi que la langue Medumba.</p>
+      </section>
+    )
+  }
+  {
+    salle.slug === 'histoire-civilisation-migration' && (
+      <section class="wrap-narrow section-tight prose-site">
+        <p>
+          Pour l’histoire du royaume, le site de la chefferie supérieure Bangangté propose une rubrique{' '}
+          <a href={site.chefferie.historique} rel="external">Historique</a> et une rubrique <a href={site.chefferie.royaume} rel="external">Royaume</a>.
+        </p>
+      </section>
+    )
+  }
+
+  {
+    objets.length > 0 ? (
+      <section class="wrap section-tight" aria-labelledby="objets-salle">
+        <h2 id="objets-salle" class="text-2xl sm:text-3xl">Objets rattachés à cette salle</h2>
+        <p class="mt-2 text-muted">Rattachement provisoire, selon la catégorie de chaque objet.</p>
+        <div class="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
+          {objets.map((o) => (
+            <ObjetCard objet={o} />
+          ))}
+        </div>
+      </section>
+    ) : (
+      <section class="wrap section-tight">
+        <p class="text-muted">Les objets de cette salle seront rattachés après validation de l’inventaire.</p>
+      </section>
+    )
+  }
+
+  <nav aria-label="Autres salles" class="wrap border-t border-trait py-8">
+    <ul class="flex flex-col gap-3 sm:flex-row sm:justify-between">
+      <li><a href={`/musee/salles/${precedente.slug}`} class="btn-link">← Salle {precedente.numero} · {precedente.titre}</a></li>
+      <li><a href={`/musee/salles/${suivante.slug}`} class="btn-link sm:text-right">Salle {suivante.numero} · {suivante.titre} →</a></li>
+    </ul>
+  </nav>
+</Base>

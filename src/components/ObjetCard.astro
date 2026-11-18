@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import { photoObjet, type Objet } from '../lib/objets';
+
+interface Props {
+  objet: Objet;
+  /** Grande carte (objets vedettes). */
+  grande?: boolean;
+  loading?: 'lazy' | 'eager';
+}
+const { objet, grande = false, loading = 'lazy' } = Astro.props;
+const photo = photoObjet(objet.data.slug);
+const href = `/musee/objets/${objet.data.slug}`;
+---
+
+{
+  photo && (
+    <a
+      href={href}
+      class="group block"
+      data-objet
+      data-titre={objet.data.titre}
+      data-categorie={objet.data.categorie}
+      data-id={objet.data.id}
+    >
+      <div class="card-img">
+        <Image
+          src={photo}
+          alt={`${objet.data.titre} : ${objet.data.description}`}
+          widths={grande ? [360, 540, 720, 1080] : [240, 360, 480, 720]}
+          sizes={grande ? '(min-width: 1024px) 45vw, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw'}
+          loading={loading}
+          class="transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+        />
+      </div>
+      <div class="mt-3 sm:mt-4">
+        <p class="text-[0.7rem] uppercase tracking-[0.16em] text-muted">{objet.data.categorie}</p>
+        <h3 class:list={['mt-1 font-serif leading-snug group-hover:underline decoration-or/60 underline-offset-4', grande ? 'text-xl sm:text-2xl' : 'text-[1.05rem] sm:text-lg']}>
+          {objet.data.titre}
+        </h3>
+      </div>
+    </a>
+  )
+}

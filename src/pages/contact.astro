@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Formulaire from '../components/Formulaire.astro';
+import { site } from '../config/site';
+---
+
+<Base title="Contact" description={`Écrire au comité d’organisation du ${site.nom}. Formulaire de contact, sans numéro personnel.`}>
+  <PageHero eyebrow="Contact" titre="Écrire au comité" lead="Une question sur le congrès, le musée, un objet ou le mécénat ? Le comité d’organisation vous répond." />
+
+  <section class="wrap-narrow pb-20 sm:pb-28">
+    <div id="histoire" class="mb-8 hidden rounded-md border border-trait bg-gris p-5" data-encart-histoire>
+      <p class="font-serif text-lg">Contribuer à l’histoire d’un objet</p>
+      <p class="mt-1 text-sm text-muted">Votre témoignage sera transmis aux notables et détenteurs de savoirs de la chefferie pour validation.</p>
+    </div>
+    <Formulaire nom="contact" sujet="Contact via le site du COMENGA" champs={[{ name: 'objet', label: 'Objet concerné (facultatif)' }]} />
+    <p class="mt-10 text-sm text-muted">
+      Partenaire scientifique du musée : {site.partenaire.nom}, <a href={`mailto:${site.partenaire.contact}`} class="underline underline-offset-4">{site.partenaire.contact}</a>.
+    </p>
+  </section>
+</Base>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  if (params.get('sujet') === 'histoire') {
+    document.querySelector<HTMLElement>('[data-encart-histoire]')?.classList.remove('hidden');
+    const objet = document.getElementById('contact-objet') as HTMLInputElement | null;
+    const sujet = document.querySelector<HTMLInputElement>('form[name="contact"] input[name="sujet"]');
+    const titre = params.get('titre') || '';
+    const id = params.get('objet') || '';
+    if (objet) objet.value = [id, titre].filter(Boolean).join(' · ');
+    if (sujet) sujet.value = `Histoire d’un objet : ${titre || id}`;
+  }
+</script>

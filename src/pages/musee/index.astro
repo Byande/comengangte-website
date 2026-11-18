@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ObjetCard from '../../components/ObjetCard.astro';
+import NdopBand from '../../components/NdopBand.astro';
+import { objetsPublics, objetsVedettes, salles } from '../../lib/objets';
+import { site } from '../../config/site';
+import palais from '../../assets/lieux/ancien-palais-royal-1.jpg';
+import inventaire from '../../assets/inventaire/inventaire-phase1-01.jpg';
+
+const vedettes = await objetsVedettes();
+const tous = await objetsPublics();
+---
+
+<Base
+  title="Musée numérique"
+  description={`${site.musee.titre}. Découvrez les objets de la collection royale de la chefferie supérieure Bangangté et le projet de musée dans l’ancien palais.`}
+  musee
+>
+  <PageHero eyebrow="Musée numérique" titre={site.musee.titre} lead="Les objets de la collection royale, visibles par les Bangangté du monde entier. Un musée en ligne qui prépare le futur musée de la chefferie." narrow={false}>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/musee/collection" class="btn-primary">Voir la collection</a>
+      <a href="/musee/futur-musee" class="btn-outline">Le futur musée</a>
+    </div>
+  </PageHero>
+
+  <NdopBand hauteur={10} />
+
+  <section class="section wrap" aria-labelledby="vedettes">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">Objets vedettes</p>
+        <h2 id="vedettes" class="mt-2 text-3xl sm:text-4xl">Quatre pièces pour commencer</h2>
+      </div>
+      <a href="/musee/collection" class="btn-link">Tous les objets</a>
+    </div>
+    <div class="mt-10 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
+      {vedettes.map((o, i) => <ObjetCard objet={o} loading={i < 2 ? 'eager' : 'lazy'} />)}
+    </div>
+  </section>
+
+  <section class="bg-gris">
+    <div class="wrap section-tight grid gap-10 lg:grid-cols-3">
+      <div>
+        <p class="font-serif text-5xl sm:text-6xl">{site.musee.objetsInventories}</p>
+        <p class="mt-2 text-muted">objets inventoriés et documentés par {site.partenaire.nom}</p>
+      </div>
+      <div>
+        <p class="font-serif text-5xl sm:text-6xl">{tous.length}</p>
+        <p class="mt-2 text-muted">objets déjà visibles en ligne, d’autres à venir</p>
+      </div>
+      <div>
+        <p class="font-serif text-5xl sm:text-6xl">4</p>
+        <p class="mt-2 text-muted">salles thématiques</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="salles">
+    <p class="eyebrow">Les salles</p>
+    <h2 id="salles" class="mt-2 max-w-2xl text-3xl sm:text-4xl">Quatre thématiques, quatre salles</h2>
+    <ol class="mt-10 grid gap-px overflow-hidden rounded-md border border-trait bg-trait sm:grid-cols-2">
+      {
+        salles.map((s) => (
+          <li class="bg-white">
+            <a href={`/musee/salles/${s.slug}`} class="group block h-full p-6 sm:p-8">
+              <span class="font-serif text-sm text-ndop">Salle {s.numero}</span>
+              <h3 class="mt-2 text-xl group-hover:underline decoration-or/60 underline-offset-4 sm:text-2xl">{s.titre}</h3>
+              <p class="mt-3 text-[0.98rem] leading-relaxed text-muted">{s.propos}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="wrap section-tight grid gap-8 border-t border-trait md:grid-cols-2 md:items-center md:gap-12" aria-labelledby="projet">
+    <div class="order-2 md:order-1">
+      <p class="eyebrow">Le projet</p>
+      <h2 id="projet" class="mt-2 text-3xl sm:text-4xl">Un musée dans l’ancien palais royal</h2>
+      <div class="prose-site mt-6">
+        <p>
+          L’ancien palais royal, de construction coloniale allemande, se trouve à l’entrée de la cour de la chefferie. Il a été retenu pour
+          accueillir le musée de la chefferie Bangangté.
+        </p>
+        <p>
+          L’inventaire des objets a été réalisé par {site.partenaire.nom}, partenaire scientifique du projet. Le musée numérique en est la
+          première vitrine.
+        </p>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/musee/futur-musee" class="btn-link">Le futur musée</a>
+        <a href="/musee/coulisses" class="btn-link">Les coulisses de l’inventaire</a>
+      </div>
+    </div>
+    <div class="order-1 grid grid-cols-2 gap-3 md:order-2">
+      <Image src={palais} alt="L’ancien palais royal de Bangangté : façade en pierres jointoyées de blanc, toit de tôle, statue devant l’entrée." widths={[320, 480, 640]} sizes="(min-width: 768px) 25vw, 50vw" class="aspect-[3/4] w-full rounded-sm object-cover" />
+      <Image src={inventaire} alt="Une membre de l’équipe d’inventaire, en combinaison verte et gants, manipule une sculpture en bois." widths={[320, 480, 640]} sizes="(min-width: 768px) 25vw, 50vw" class="aspect-[3/4] w-full rounded-sm object-cover" />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,97 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import NdopBand from '../components/NdopBand.astro';
+import Panthere from '../components/Panthere.astro';
+import { site } from '../config/site';
+import dynastie from '../data/dynastie.json';
+import palais from '../assets/lieux/ancien-palais-royal-1.jpg';
+import fresque from '../assets/fresques/fresque-panthere-01.jpeg';
+import ndop from '../assets/chefferie/enfant-tissu-ndop.jpg';
+import embleme from '../assets/fresques/embleme-facade-01.jpeg';
+---
+
+<Base title="La Chefferie" description={`La chefferie supérieure Bangangté : devise « ${site.devise} », dynastie des rois, ancien palais royal, panthère et ndop.`}>
+  <PageHero eyebrow={site.chefferie.nom} titre="La Chefferie" lead={`« ${site.devise} ». Chefferie supérieure du groupement Bangangté, département du Ndé, région de l’Ouest, Cameroun.`}>
+    <p class="mt-8 text-[0.98rem] text-muted">
+      Pour l’histoire et le royaume, consultez le site de la chefferie :
+      <a href={site.chefferie.historique} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Historique</a>
+      ·
+      <a href={site.chefferie.royaume} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Royaume</a>
+    </p>
+  </PageHero>
+
+  <NdopBand hauteur={8} />
+
+  <section class="wrap section" aria-labelledby="dynastie">
+    <div class="max-w-2xl">
+      <p class="eyebrow">La dynastie</p>
+      <h2 id="dynastie" class="mt-2 text-3xl sm:text-4xl">Les rois Bangangté</h2>
+      <p class="mt-4 text-muted">
+        Liste relevée sur le tableau « Dynastie des Rois Bangangté » de la chefferie. Elle est en cours de validation et sera complétée jusqu’au roi
+        actuel, {site.personnalites.roi.nom}.
+      </p>
+    </div>
+    <ol class="mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        dynastie.rois.map((r) => (
+          <li class="flex gap-4 border-t border-trait pt-4">
+            <span class="font-serif text-2xl tabular-nums text-or">{String(r.ordre).padStart(2, '0')}</span>
+            <div>
+              <p class="font-serif text-xl">{r.nom}</p>
+              <p class="text-sm text-muted">
+                Règne {r.regne.replace('-', ' – ')} · né en {r.naissance}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+      <li class="flex gap-4 border-t border-dashed border-trait pt-4">
+        <span class="font-serif text-2xl text-muted">…</span>
+        <div>
+          <p class="font-serif text-xl text-muted">Suite de la dynastie</p>
+          <p class="text-sm text-muted">En cours de validation par la chefferie.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="bg-gris" aria-labelledby="palais">
+    <div class="wrap section-tight grid gap-8 md:grid-cols-2 md:items-center md:gap-12">
+      <Image src={palais} alt="L’ancien palais royal de Bangangté : façade en pierres jointoyées de blanc, toit de tôle, statue devant l’entrée." widths={[400, 600, 800]} sizes="(min-width: 768px) 45vw, 100vw" class="aspect-[4/5] w-full rounded-sm object-cover" />
+      <div>
+        <p class="eyebrow">Patrimoine bâti</p>
+        <h2 id="palais" class="mt-2 text-3xl sm:text-4xl">L’ancien palais royal</h2>
+        <div class="prose-site mt-6">
+          <p>De construction coloniale allemande, à l’entrée de la cour de la chefferie, l’ancien palais a été retenu pour accueillir le musée de la chefferie.</p>
+          <p>Le patrimoine bâti comprend aussi la maison de la Reine blanche.</p>
+        </div>
+        <a href="/musee/futur-musee" class="btn-link mt-6">Le futur musée</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section relative overflow-hidden" aria-labelledby="symboles">
+    <Panthere class="absolute -left-16 bottom-0 hidden w-[420px] text-vert opacity-[0.04] lg:block" />
+    <div class="relative">
+      <p class="eyebrow">Les symboles</p>
+      <h2 id="symboles" class="mt-2 text-3xl sm:text-4xl">La panthère et le ndop</h2>
+      <div class="mt-10 grid gap-10 md:grid-cols-2 md:gap-14">
+        <div>
+          <Image src={fresque} alt="Fresque peinte à la chefferie : une panthère sur fond orangé, encadrée d’or, sur un mur bleu." widths={[400, 600, 800]} sizes="(min-width: 768px) 45vw, 100vw" class="aspect-[4/5] w-full rounded-sm object-cover" />
+          <h3 class="mt-6 text-2xl">La panthère, Nzui Manto</h3>
+          <p class="mt-2 text-[0.98rem] leading-relaxed text-muted">Emblème royal. Elle figure sur le logo du congrès, sur la banderole et sur la fresque de la chefferie.</p>
+        </div>
+        <div>
+          <div class="grid grid-cols-2 gap-3">
+            <Image src={ndop} alt="Un enfant vêtu d’un tissu ndop indigo à motifs blancs, coiffé d’un bonnet tricoté." widths={[300, 450, 600]} sizes="(min-width: 768px) 22vw, 50vw" class="aspect-[4/5] w-full rounded-sm object-cover" />
+            <Image src={embleme} alt="Emblème peint sur une façade de la chefferie : un personnage en tenue indigo à motifs, bras levés." widths={[300, 450, 600]} sizes="(min-width: 768px) 22vw, 50vw" class="aspect-[4/5] w-full rounded-sm object-cover" />
+          </div>
+          <h3 class="mt-6 text-2xl">Le ndop</h3>
+          <p class="mt-2 text-[0.98rem] leading-relaxed text-muted">Tissu royal bleu indigo à motifs blancs des Grassfields. On le retrouve sur les façades peintes de la chefferie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

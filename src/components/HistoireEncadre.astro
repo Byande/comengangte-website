@@ -1,0 +1,27 @@
+---
+import { t } from '../i18n/ui';
+import type { Objet } from '../lib/objets';
+
+interface Props {
+  objet: Objet;
+}
+const { objet } = Astro.props;
+const { histoire, histoire_statut, titre, id } = objet.data;
+---
+
+{
+  histoire ? (
+    <section aria-labelledby="histoire-titre" class="prose-site">
+      <h2 id="histoire-titre" class="text-2xl">Histoire</h2>
+      <p>{histoire}</p>
+    </section>
+  ) : (
+    <aside aria-labelledby="histoire-titre" class="rounded-md border border-trait bg-gris p-5 sm:p-6">
+      <h2 id="histoire-titre" class="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-ndop">{t('objet.recit')}</h2>
+      <p class="mt-3 text-[0.98rem] leading-relaxed text-encre/85">{histoire_statut}</p>
+      <a href={`/contact?sujet=histoire&objet=${encodeURIComponent(id)}&titre=${encodeURIComponent(titre)}`} class="btn-outline mt-5 bg-white">
+        {t('objet.contribuer')}
+      </a>
+    </aside>
+  )
+}

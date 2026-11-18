@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Base title="Message envoyé" description="Votre message a bien été transmis au comité d’organisation.">
+  <PageHero eyebrow="Merci" titre="Votre message est bien envoyé" lead="Le comité d’organisation vous répondra dès que possible.">
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/" class="btn-primary">Retour à l’accueil</a>
+      <a href="/musee/collection" class="btn-outline">Voir la collection</a>
+    </div>
+  </PageHero>
+</Base>

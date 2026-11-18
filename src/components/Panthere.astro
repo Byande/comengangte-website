@@ -1,0 +1,33 @@
+---
+/**
+ * La panthère (Nzui Manto), emblème royal, en filigrane discret.
+ * Silhouette vectorielle simplifiée, jamais en grand ni en couleur.
+ */
+interface Props {
+  class?: string;
+  /** 'silhouette' : panthère en marche ; 'taches' : motif de rosettes en bordure. */
+  variante?: 'silhouette' | 'taches';
+  couleur?: string;
+}
+const { class: cls = '', variante = 'silhouette', couleur = 'currentColor' } = Astro.props;
+---
+
+{
+  variante === 'silhouette' ? (
+    <svg viewBox="0 0 400 200" class:list={['pointer-events-none select-none', cls]} aria-hidden="true" fill={couleur}>
+      <path d="M318 62c8-6 20-6 26 2 12 6 20 20 16 34-2 8-10 12-20 10-6 4-14 8-22 10-6 8-8 22-6 38l6 26-18 2-8-24c-2-10-4-20-6-30-4 20-6 35-2 52l-18 2-8-34c-8-15-18-22-38-24-30 2-60 2-80-2-6 16-12 36-10 60l-18 0-4-34c-4-10-8-15-10-20-12 15-20 35-18 54l-18 0-2-36c-2-18 0-36 10-52-20-4-40-12-48-28-4-10 2-20 10-18-4 10 4 22 24 30 14 4 28 4 40 0 34-12 84-18 134-16 30 0 60-4 88-6z" />
+    </svg>
+  ) : (
+    <svg class:list={['pointer-events-none select-none', cls]} aria-hidden="true" preserveAspectRatio="none">
+      <defs>
+        <pattern id="taches" width="34" height="22" patternUnits="userSpaceOnUse">
+          <path d="M6 6c3-3 8-2 9 2 0 4-6 7-9 4-2-2-2-4 0-6z" fill="none" stroke={couleur} stroke-width="1.2" />
+          <path d="M22 14c3-3 8-2 9 2 0 4-6 7-9 4-2-2-2-4 0-6z" fill="none" stroke={couleur} stroke-width="1.2" />
+          <circle cx="26" cy="4" r="1" fill={couleur} />
+          <circle cx="10" cy="17" r="1" fill={couleur} />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#taches)" />
+    </svg>
+  )
+}

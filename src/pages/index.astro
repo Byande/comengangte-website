@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Countdown from '../components/Countdown.astro';
+import ObjetCard from '../components/ObjetCard.astro';
+import NdopBand from '../components/NdopBand.astro';
+import Panthere from '../components/Panthere.astro';
+import VideoLazy from '../components/VideoLazy.astro';
+import { objetsVedettes } from '../lib/objets';
+import { site } from '../config/site';
+import logo from '../assets/logo/logo-comengangte.png';
+import palais from '../assets/lieux/ancien-palais-royal-2.jpg';
+
+const vedettes = await objetsVedettes();
+const entrees = [
+  { href: '/congres', titre: 'Le Congrès', texte: `${site.edition.datesTexte}. Temps forts, programme, éditions passées.` },
+  { href: '/musee', titre: 'Le Musée numérique', texte: `${site.musee.objetsInventories} objets inventoriés. La collection royale, visible en ligne.` },
+  { href: '/soutenir', titre: 'Soutenir', texte: 'Packs de mécénat et parrainage d’objets pour le futur musée.' },
+];
+---
+
+<Base title={site.nom} description={`${site.nomLong}. ${site.signature}. Édition ${site.edition.annee} : ${site.edition.datesTexte.toLowerCase()}, ${site.edition.lieu}.`}>
+  <section class="relative overflow-hidden">
+    <Panthere class="absolute -right-10 top-10 hidden w-[520px] text-vert opacity-[0.045] lg:block" />
+    <div class="wrap relative pt-14 pb-16 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32">
+      <div class="max-w-3xl">
+        <Image src={logo} alt={`Logo du ${site.nom}`} width={96} height={96} class="h-20 w-20 rounded-full sm:h-24 sm:w-24" loading="eager" />
+        <p class="eyebrow mt-8">{site.nomLong}</p>
+        <h1 class="mt-3 text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-7xl">{site.signature}</h1>
+        <p class="lead mt-6">
+          Édition {site.edition.annee} · {site.edition.datesTexte.toLowerCase()}<br />
+          {site.edition.lieu}, {site.edition.lieuDetail}.
+        </p>
+        <div class="mt-10">
+          <Countdown />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <NdopBand hauteur={10} />
+
+  <section class="wrap section-tight" aria-label="Entrées principales">
+    <ul class="grid gap-px overflow-hidden rounded-md border border-trait bg-trait md:grid-cols-3">
+      {
+        entrees.map((e) => (
+          <li class="bg-white">
+            <a href={e.href} class="group flex h-full flex-col p-6 sm:p-8">
+              <h2 class="text-2xl group-hover:underline decoration-or/60 underline-offset-4">{e.titre}</h2>
+              <p class="mt-3 text-[0.98rem] leading-relaxed text-muted">{e.texte}</p>
+              <span class="mt-auto pt-6 text-sm font-semibold text-vert">Découvrir →</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap section grid gap-10 border-t border-trait md:grid-cols-12 md:gap-12" aria-labelledby="marraine">
+    <div class="md:col-span-5">
+      <p class="eyebrow">Sous le haut patronage</p>
+      <h2 id="marraine" class="mt-2 text-3xl sm:text-4xl">{site.personnalites.roi.nom}</h2>
+      <p class="mt-2 text-lg text-muted">{site.personnalites.roi.titre}</p>
+    </div>
+    <div class="md:col-span-7 md:border-l md:border-trait md:pl-12">
+      <p class="eyebrow">Marraine</p>
+      <h2 class="mt-2 text-3xl sm:text-4xl">{site.personnalites.marraine.nom}</h2>
+      <p class="mt-2 text-lg text-muted">{site.personnalites.marraine.titre} du projet de musée</p>
+      <p class="prose-site mt-6 max-w-prose">
+        Le congrès réunit chaque année la diaspora et les Bangangté du pays autour de Sa Majesté le Roi. L’édition {site.edition.annee} contribue à
+        réunir les fonds du futur musée de la chefferie.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-gris">
+    <div class="wrap section-tight">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow text-ndop">Musée numérique</p>
+          <h2 class="mt-2 text-3xl sm:text-4xl">Les objets vedettes</h2>
+        </div>
+        <a href="/musee/collection" class="btn-link text-ndop">Toute la collection</a>
+      </div>
+      <div class="mt-10 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
+        {vedettes.map((o) => <ObjetCard objet={o} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section grid gap-10 lg:grid-cols-12 lg:gap-14" aria-labelledby="reportage">
+    <div class="lg:col-span-4">
+      <p class="eyebrow">Médias</p>
+      <h2 id="reportage" class="mt-2 text-3xl sm:text-4xl">Le reportage de la CRTV</h2>
+      <p class="mt-4 text-muted">Diffusé le 17 novembre 2026.</p>
+      <a href="/medias" class="btn-link mt-6">Tous les médias</a>
+    </div>
+    <div class="lg:col-span-8">
+      <VideoLazy src="/videos/reportage-crtv-2026-11-17.mp4" titre="Reportage CRTV du 17 novembre 2026" poster={palais} />
+    </div>
+  </section>
+</Base>

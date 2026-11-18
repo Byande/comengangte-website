@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * Vidéo chargée à la demande : seule l'image d'aperçu est chargée au départ,
+ * le fichier vidéo n'est demandé qu'au clic.
+ */
+interface Props {
+  src: string;
+  titre: string;
+  poster?: ImageMetadata;
+  posterUrl?: string;
+  legende?: string;
+}
+const { src, titre, poster, posterUrl, legende } = Astro.props;
+---
+
+<figure class="video-lazy" data-src={src}>
+  <div class="relative aspect-video overflow-hidden bg-gris">
+    {poster && <Image src={poster} alt="" width={1280} height={720} class="h-full w-full object-cover" loading="lazy" data-poster />}
+    {!poster && posterUrl && <img src={posterUrl} alt="" width="1280" height="720" class="h-full w-full object-cover" loading="lazy" data-poster />}
+    <video class="hidden h-full w-full bg-black" controls preload="none" playsinline data-video poster={posterUrl}>
+      <track kind="captions" label="Sous-titres à fournir" />
+    </video>
+    <button
+      type="button"
+      class="absolute inset-0 flex items-center justify-center bg-encre/10 transition-colors hover:bg-encre/20"
+      data-lire
+      aria-label={`Lire la vidéo : ${titre}`}
+    >
+      <span class="inline-flex min-h-12 items-center gap-3 rounded-full bg-white px-6 py-3 text-[0.95rem] font-semibold text-encre shadow-sm">
+        <svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M1 1.5v13l12-6.5z" fill="currentColor" /></svg>
+        Lire la vidéo
+      </span>
+    </button>
+  </div>
+  {legende && <figcaption class="mt-3 text-sm text-muted">{legende}</figcaption>}
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.video-lazy').forEach((fig) => {
+    const bouton = fig.querySelector<HTMLButtonElement>('[data-lire]');
+    const video = fig.querySelector<HTMLVideoElement>('[data-video]');
+    const poster = fig.querySelector<HTMLElement>('[data-poster]');
+    if (!bouton || !video) return;
+    bouton.addEventListener('click', () => {
+      video.src = fig.dataset.src!;
+      video.classList.remove('hidden');
+      poster?.remove();
+      bouton.remove();
+      video.play().catch(() => {});
+      video.focus();
+    });
+  });
+</script>

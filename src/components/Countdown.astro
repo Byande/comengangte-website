@@ -1,0 +1,61 @@
+---
+import { site } from '../config/site';
+import { t } from '../i18n/ui';
+
+const debut = new Date(site.edition.debut);
+const fin = new Date(site.edition.fin);
+const maintenant = new Date();
+const joursInit = Math.max(0, Math.ceil((debut.getTime() - maintenant.getTime()) / 86_400_000));
+---
+
+<div
+  id="compte-a-rebours"
+  class="flex flex-wrap items-baseline gap-x-6 gap-y-2"
+  data-debut={debut.toISOString()}
+  data-fin={fin.toISOString()}
+  data-encours={t('compte.encours')}
+  data-termine={t('compte.termine')}
+  aria-live="polite"
+>
+  <div class="flex items-baseline gap-2">
+    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-jours>{joursInit}</span>
+    <span class="text-sm uppercase tracking-[0.16em] text-muted">{t('compte.jours')}</span>
+  </div>
+  <div class="flex items-baseline gap-2">
+    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-heures>–</span>
+    <span class="text-sm uppercase tracking-[0.16em] text-muted">{t('compte.heures')}</span>
+  </div>
+  <p class="w-full font-serif text-xl" data-etat hidden></p>
+</div>
+
+<script>
+  const el = document.getElementById('compte-a-rebours');
+  if (el) {
+    const debut = new Date(el.dataset.debut!).getTime();
+    const fin = new Date(el.dataset.fin!).getTime();
+    const jours = el.querySelector('[data-jours]')!;
+    const heures = el.querySelector('[data-heures]')!;
+    const etat = el.querySelector('[data-etat]') as HTMLElement;
+    const blocs = el.querySelectorAll<HTMLElement>(':scope > div');
+    const maj = () => {
+      const now = Date.now();
+      if (now >= fin) {
+        blocs.forEach((b) => (b.hidden = true));
+        etat.textContent = el.dataset.termine!;
+        etat.hidden = false;
+        return;
+      }
+      if (now >= debut) {
+        blocs.forEach((b) => (b.hidden = true));
+        etat.textContent = el.dataset.encours!;
+        etat.hidden = false;
+        return;
+      }
+      const reste = debut - now;
+      jours.textContent = String(Math.floor(reste / 86_400_000));
+      heures.textContent = String(Math.floor((reste % 86_400_000) / 3_600_000));
+    };
+    maj();
+    setInterval(maj, 60_000);
+  }
+</script>

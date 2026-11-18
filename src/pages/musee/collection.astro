@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ObjetCard from '../../components/ObjetCard.astro';
+import { objetsPublics, categories } from '../../lib/objets';
+import { t } from '../../i18n/ui';
+
+const objets = await objetsPublics();
+const cats = categories(objets);
+---
+
+<Base title="La collection" description="Tous les objets de la collection royale Bangangté visibles en ligne : sculptures, regalia, instruments, objets cérémoniels." musee>
+  <PageHero eyebrow="Musée numérique" titre="La collection" lead={`${objets.length} objets visibles en ligne. Les titres et descriptions sont provisoires et seront rapprochés de l’inventaire officiel.`} narrow={false} />
+
+  <section class="wrap pb-20 sm:pb-28" aria-labelledby="liste">
+    <h2 id="liste" class="sr-only">Objets</h2>
+    <div class="flex flex-col gap-5 border-y border-trait py-5 lg:flex-row lg:items-center lg:justify-between">
+      <div class="-mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0" role="group" aria-label="Filtrer par catégorie">
+        <div class="flex w-max gap-2" id="filtres">
+          <button type="button" class="filtre" data-cat="" aria-pressed="true">{t('collection.toutes')}</button>
+          {cats.map((c) => <button type="button" class="filtre" data-cat={c} aria-pressed="false">{c}</button>)}
+        </div>
+      </div>
+      <label class="relative block lg:w-72">
+        <span class="sr-only">{t('collection.recherche')}</span>
+        <input id="recherche" type="search" placeholder={t('collection.recherche')} autocomplete="off" class="block min-h-11 w-full rounded-full border border-encre/25 bg-white px-5 text-[0.98rem] focus:border-ndop" />
+      </label>
+    </div>
+
+    <p class="mt-4 text-sm text-muted" aria-live="polite"><span id="compteur">{objets.length}</span> objets</p>
+
+    <div id="grille" class="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
+      {objets.map((o, i) => <ObjetCard objet={o} loading={i < 4 ? 'eager' : 'lazy'} />)}
+    </div>
+    <p id="aucun" class="mt-10 text-muted" hidden>{t('collection.aucun')}</p>
+  </section>
+</Base>
+
+<style>
+  @reference '../../styles/global.css';
+  .filtre {
+    @apply inline-flex min-h-10 items-center whitespace-nowrap rounded-full border border-encre/20 px-4 text-sm font-medium transition-colors hover:border-encre;
+  }
+  .filtre[aria-pressed='true'] {
+    @apply border-ndop bg-ndop text-white;
+  }
+</style>
+
+<script>
+  const filtres = document.querySelectorAll<HTMLButtonElement>('#filtres .filtre');
+  const recherche = document.getElementById('recherche') as HTMLInputElement;
+  const cartes = document.querySelectorAll<HTMLElement>('#grille [data-objet]');
+  const compteur = document.getElementById('compteur')!;
+  const aucun = document.getElementById('aucun')!;
+  let cat = '';
+
+  const normaliser = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  const appliquer = () => {
+    const q = normaliser(recherche.value.trim());
+    let n = 0;
+    cartes.forEach((c) => {
+      const okCat = !cat || c.dataset.categorie === cat;
+      const okQ = !q || normaliser(`${c.dataset.titre} ${c.dataset.categorie} ${c.dataset.id}`).includes(q);
+      const visible = okCat && okQ;
+      c.hidden = !visible;
+      if (visible) n++;
+    });
+    compteur.textContent = String(n);
+    aucun.hidden = n > 0;
+  };
+
+  filtres.forEach((b) =>
+    b.addEventListener('click', () => {
+      cat = b.dataset.cat || '';
+      filtres.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      appliquer();
+    }),
+  );
+  recherche.addEventListener('input', appliquer);
+
+  const param = new URLSearchParams(location.search).get('categorie');
+  if (param) {
+    const b = [...filtres].find((x) => x.dataset.cat === param);
+    if (b) b.click();
+  }
+</script>

@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+
+const niveaux = [
+  { nom: 'Public', cle: 'public', texte: 'Visible par tous, sur ce site. C’est le cas de tous les objets présentés aujourd’hui.' },
+  { nom: 'Communauté', cle: 'communaute', texte: 'Réservé aux Bangangté inscrits. Ces objets seront visibles après connexion, quand l’espace membres sera ouvert.' },
+  { nom: 'Notables', cle: 'notables', texte: 'Réservé aux personnes désignées par la chefferie.' },
+  { nom: 'Réservé', cle: 'reserve', texte: 'Jamais mis en ligne. Ces objets ne quittent pas la chefferie, même en image.' },
+];
+---
+
+<Base title="Charte d’accès" description="Les quatre niveaux d’accès aux objets du musée numérique de la chefferie Bangangté, expliqués simplement.">
+  <PageHero eyebrow="Musée numérique" titre="Charte d’accès" lead="Tous les objets de la collection ne se montrent pas de la même façon. Le comité décide des niveaux d’accès, avec la confiance du Roi." />
+
+  <section class="wrap-narrow pb-20 sm:pb-28">
+    <ol class="divide-y divide-trait border-y border-trait">
+      {
+        niveaux.map((n, i) => (
+          <li class="grid gap-2 py-6 sm:grid-cols-[6rem_1fr] sm:gap-8">
+            <p class="font-serif text-sm text-or">0{i + 1}</p>
+            <div>
+              <h2 class="text-2xl">{n.nom}</h2>
+              <p class="mt-2 text-[0.98rem] leading-relaxed text-muted">{n.texte}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="prose-site mt-10">
+      <p>Dans cette première version du site, seuls les objets de niveau « Public » sont mis en ligne. Les autres niveaux sont prévus et seront activés par le comité.</p>
+      <p>Vous connaissez l’histoire d’un objet ? <a href="/contact?sujet=histoire">Contribuez</a>.</p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,157 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import ObjetCard from '../../../components/ObjetCard.astro';
+import HistoireEncadre from '../../../components/HistoireEncadre.astro';
+import NdopBand from '../../../components/NdopBand.astro';
+import { objetsPublics, photoObjet, salles } from '../../../lib/objets';
+import { t } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  // Seuls les objets publics produisent une page.
+  const objets = await objetsPublics();
+  return objets.map((objet, i) => ({
+    params: { slug: objet.data.slug },
+    props: {
+      objet,
+      voisins: [objets[(i + 1) % objets.length], objets[(i + 2) % objets.length], objets[(i + 3) % objets.length]].filter(
+        (v) => v.data.slug !== objet.data.slug,
+      ),
+    },
+  }));
+}
+
+const { objet, voisins } = Astro.props;
+const d = objet.data;
+const photo = photoObjet(d.slug)!;
+const grande = await getImage({ src: photo, width: Math.min(photo.width, 2000), format: 'webp' });
+const og = await getImage({ src: photo, width: 1200, format: 'jpg' });
+const salle = salles.find((s) => (s.categories as readonly string[]).includes(d.categorie));
+const portrait = photo.height > photo.width;
+---
+
+<Base title={d.titre} description={d.description} musee image={og.src} type="article">
+  <article class="wrap pt-8 sm:pt-12 lg:pt-16">
+    <nav aria-label="Fil d’Ariane" class="text-sm text-muted">
+      <a href="/musee" class="hover:underline">Musée numérique</a>
+      <span aria-hidden="true"> / </span>
+      <a href="/musee/collection" class="hover:underline">Collection</a>
+    </nav>
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-14">
+      <div class="lg:col-span-7">
+        <button
+          type="button"
+          id="ouvrir-zoom"
+          class="group block w-full cursor-zoom-in bg-gris"
+          aria-label={t('objet.zoom')}
+          style={`aspect-ratio: ${photo.width} / ${photo.height}; max-height: 78vh;`}
+        >
+          <Image
+            src={photo}
+            alt={`${d.titre} : ${d.description}`}
+            widths={[480, 720, 960, 1400]}
+            sizes="(min-width: 1024px) 58vw, 100vw"
+            loading="eager"
+            fetchpriority="high"
+            class:list={['mx-auto h-full w-auto max-w-full', portrait ? 'object-contain' : 'object-contain']}
+          />
+        </button>
+        <p class="mt-3 flex items-center justify-between text-sm text-muted">
+          <span>{t('objet.credit')} : {d.credit_photo}</span>
+          <span class="hidden sm:inline">{t('objet.zoom')} : cliquer sur l’image</span>
+        </p>
+      </div>
+
+      <div class="lg:col-span-5">
+        <p class="text-sm tabular-nums text-muted">{d.id}</p>
+        <h1 class="mt-2 text-4xl sm:text-5xl">{d.titre}</h1>
+        {d.nom_medumba && <p class="mt-2 font-serif text-xl italic text-muted">{d.nom_medumba}</p>}
+        <dl class="mt-6 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-[0.95rem]">
+          <dt class="text-muted">Catégorie</dt>
+          <dd><a href={`/musee/collection?categorie=${encodeURIComponent(d.categorie)}`} class="underline decoration-or/50 underline-offset-4 hover:decoration-or">{d.categorie}</a></dd>
+          {salle && <dt class="text-muted">Salle</dt>}
+          {salle && <dd><a href={`/musee/salles/${salle.slug}`} class="underline decoration-or/50 underline-offset-4 hover:decoration-or">{salle.titre}</a></dd>}
+          {d.matieres && <dt class="text-muted">Matières</dt>}
+          {d.matieres && <dd>{d.matieres}</dd>}
+          {d.dimensions && <dt class="text-muted">Dimensions</dt>}
+          {d.dimensions && <dd>{d.dimensions}</dd>}
+          {d.epoque && <dt class="text-muted">Époque</dt>}
+          {d.epoque && <dd>{d.epoque}</dd>}
+          {d.parrain && <dt class="text-muted">Parrain</dt>}
+          {d.parrain && <dd>{d.parrain}</dd>}
+        </dl>
+
+        <div class="prose-site mt-8">
+          <p class="text-lg">{d.description}</p>
+        </div>
+
+        <div class="mt-10">
+          <HistoireEncadre objet={objet} />
+        </div>
+
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href={`/soutenir?objet=${encodeURIComponent(d.id)}&titre=${encodeURIComponent(d.titre)}#parrainer`} class="btn-primary">{t('objet.parrainer')}</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <div class="mt-16 sm:mt-24"><NdopBand hauteur={8} /></div>
+
+  <section class="wrap section-tight" aria-labelledby="voisins">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 id="voisins" class="text-2xl sm:text-3xl">{t('objet.voisins')}</h2>
+      <a href="/musee/collection" class="btn-link">Toute la collection</a>
+    </div>
+    <div class="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 md:grid-cols-3 lg:gap-x-8">
+      {voisins.slice(0, 3).map((v, i) => <div class:list={[i === 2 && 'hidden md:block']}><ObjetCard objet={v} /></div>)}
+    </div>
+  </section>
+
+  <dialog id="zoom" class="m-0 h-dvh max-h-none w-screen max-w-none bg-white p-0 backdrop:bg-white">
+    <div class="flex h-full flex-col">
+      <div class="flex items-center justify-between gap-4 border-b border-trait px-5 py-3">
+        <p class="truncate font-serif text-lg">{d.titre}</p>
+        <div class="flex gap-2">
+          <button type="button" id="zoom-plus" class="btn-outline min-w-11 px-3" aria-pressed="false" aria-label="Zoom avant ou arrière">Zoom</button>
+          <button type="button" id="zoom-fermer" class="btn-outline min-w-11 px-3" autofocus>Fermer</button>
+        </div>
+      </div>
+      <div id="zoom-cadre" class="flex-1 overflow-auto">
+        <img id="zoom-img" data-src={grande.src} alt={`${d.titre} : ${d.description}`} class="mx-auto h-full w-auto max-w-full object-contain" width={grande.attributes.width} height={grande.attributes.height} />
+      </div>
+    </div>
+  </dialog>
+</Base>
+
+<script>
+  const dialog = document.getElementById('zoom') as HTMLDialogElement;
+  const img = document.getElementById('zoom-img') as HTMLImageElement;
+  const cadre = document.getElementById('zoom-cadre')!;
+  const plus = document.getElementById('zoom-plus') as HTMLButtonElement;
+  document.getElementById('ouvrir-zoom')?.addEventListener('click', () => {
+    if (!img.src) img.src = img.dataset.src!;
+    dialog.showModal();
+  });
+  document.getElementById('zoom-fermer')?.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+  const basculer = () => {
+    const actif = plus.getAttribute('aria-pressed') !== 'true';
+    plus.setAttribute('aria-pressed', String(actif));
+    img.classList.toggle('h-full', !actif);
+    img.classList.toggle('w-auto', !actif);
+    img.classList.toggle('max-w-full', !actif);
+    img.classList.toggle('max-w-none', actif);
+    img.classList.toggle('h-auto', actif);
+    img.classList.toggle('w-[200%]', actif);
+    img.classList.toggle('cursor-zoom-out', actif);
+    img.classList.toggle('cursor-zoom-in', !actif);
+    if (actif) cadre.scrollTo({ left: cadre.scrollWidth / 4, top: cadre.scrollHeight / 4 });
+  };
+  plus.addEventListener('click', basculer);
+  img.addEventListener('click', basculer);
+  img.classList.add('cursor-zoom-in');
+</script>

@@ -1,0 +1,115 @@
+---
+import { site } from '../config/site';
+import { t } from '../i18n/ui';
+
+/**
+ * Formulaire sans serveur. Le mode d'envoi et l'adresse sont dans src/config/site.ts.
+ */
+interface Props {
+  nom: 'contact' | 'soutenir' | 'contribuer';
+  sujet: string;
+  champs?: Array<{ name: string; label: string; type?: 'text' | 'select'; options?: string[]; requis?: boolean }>;
+  boutonLabel?: string;
+  cache?: Record<string, string>;
+}
+const { nom, sujet, champs = [], boutonLabel = t('form.envoyer'), cache = {} } = Astro.props;
+const { mode, endpoint, contactEmail } = site.formulaires;
+const action = mode === 'endpoint' ? endpoint : mode === 'mailto' ? '' : '/merci';
+---
+
+<form
+  name={nom}
+  method="POST"
+  action={action || undefined}
+  class="space-y-6"
+  data-formulaire
+  data-mode={mode}
+  data-email={contactEmail}
+  data-sujet={sujet}
+  data-netlify={mode === 'netlify' ? 'true' : undefined}
+  netlify-honeypot={mode === 'netlify' ? 'site-web' : undefined}
+>
+  {mode === 'netlify' && <input type="hidden" name="form-name" value={nom} />}
+  <input type="hidden" name="sujet" value={sujet} />
+  {Object.entries(cache).map(([k, v]) => <input type="hidden" name={k} value={v} />)}
+  <p class="hidden" aria-hidden="true">
+    <label>Ne pas remplir ce champ <input name="site-web" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="grid gap-6 sm:grid-cols-2">
+    <div>
+      <label for={`${nom}-nom`} class="block text-sm font-semibold">{t('form.nom')}</label>
+      <input id={`${nom}-nom`} name="nom" type="text" required autocomplete="name" class="champ" />
+    </div>
+    <div>
+      <label for={`${nom}-email`} class="block text-sm font-semibold">{t('form.email')}</label>
+      <input id={`${nom}-email`} name="email" type="email" required autocomplete="email" class="champ" />
+    </div>
+  </div>
+
+  {
+    champs.map((c) => (
+      <div>
+        <label for={`${nom}-${c.name}`} class="block text-sm font-semibold">
+          {c.label}
+        </label>
+        {c.type === 'select' ? (
+          <select id={`${nom}-${c.name}`} name={c.name} class="champ" required={c.requis}>
+            <option value="">Choisir…</option>
+            {c.options?.map((o) => <option value={o}>{o}</option>)}
+          </select>
+        ) : (
+          <input id={`${nom}-${c.name}`} name={c.name} type="text" class="champ" required={c.requis} />
+        )}
+      </div>
+    ))
+  }
+
+  <div>
+    <label for={`${nom}-message`} class="block text-sm font-semibold">{t('form.message')}</label>
+    <textarea id={`${nom}-message`} name="message" rows="6" required class="champ"></textarea>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <button type="submit" class="btn-primary">{boutonLabel}</button>
+    <p class="text-sm text-muted" data-etat aria-live="polite"></p>
+  </div>
+</form>
+
+<style>
+  @reference '../styles/global.css';
+  .champ {
+    @apply mt-2 block min-h-12 w-full rounded-md border border-encre/25 bg-white px-4 py-3 text-[1rem] text-encre focus:border-vert;
+  }
+  :global(.musee) .champ:focus {
+    @apply border-ndop;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-formulaire]').forEach((form) => {
+    const etat = form.querySelector<HTMLElement>('[data-etat]');
+    const email = form.dataset.email || '';
+    const mode = form.dataset.mode;
+    const mailto = () => {
+      const data = new FormData(form);
+      const lignes: string[] = [];
+      data.forEach((v, k) => {
+        if (['form-name', 'site-web'].includes(k) || !String(v).trim()) return;
+        lignes.push(`${k} : ${v}`);
+      });
+      const sujet = encodeURIComponent(String(data.get('sujet') || form.dataset.sujet || ''));
+      const corps = encodeURIComponent(lignes.join('\n'));
+      window.location.href = `mailto:${email}?subject=${sujet}&body=${corps}`;
+    };
+    form.addEventListener('submit', (e) => {
+      if (mode === 'mailto') {
+        e.preventDefault();
+        if (email) mailto();
+        else if (etat) etat.textContent = 'L’adresse de contact n’est pas encore configurée. Merci de réessayer plus tard.';
+        return;
+      }
+      if (etat) etat.textContent = 'Envoi en cours…';
+    });
+  });
+</script>

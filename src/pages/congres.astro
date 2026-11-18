@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import NdopBand from '../components/NdopBand.astro';
+import { site } from '../config/site';
+
+const tempsForts = [
+  { titre: 'Danse traditionnelle Nzouah', texte: 'Une danse traditionnelle au cœur des cérémonies du congrès.' },
+  { titre: 'Séquence Musée de la chefferie', texte: 'Musée de la chefferie et valorisation du patrimoine : présentation du projet et de l’inventaire.' },
+  { titre: 'Ambassadrice culturelle', texte: 'Miss / Ambassadrice culturelle du Peuple Bangangté.' },
+  { titre: 'Nuit de la Diaspora NGTE', texte: 'Une soirée dédiée aux Bangangté du monde entier.' },
+  { titre: 'Cérémonies protocolaires', texte: 'Cérémonies protocolaires autour de Sa Majesté le Roi.' },
+];
+
+const congres = import.meta.glob<ImageMetadata>('/src/assets/congres/*.jpeg', { eager: true, import: 'default' });
+const photos = Object.values(congres).slice(0, 6);
+---
+
+<Base title="Le Congrès" description={`Le ${site.nomLong} : présentation, temps forts, programme et éditions passées. Édition ${site.edition.annee} ${site.edition.datesTexte.toLowerCase()}.`}>
+  <PageHero eyebrow={`Édition ${site.edition.annee}`} titre="Le Congrès" lead={`${site.edition.datesTexte}, ${site.edition.lieu.toLowerCase()}. Le rendez-vous annuel de la diaspora et des Bangangté du pays autour de Sa Majesté le Roi.`} />
+
+  <section class="wrap-narrow prose-site pb-16 sm:pb-24">
+    <p>
+      Le {site.nom} est le {site.nomLong}, {site.nomAnglais}. Son nom long historique est « {site.nomHistorique} ».
+    </p>
+    <p>
+      Il réunit chaque année la diaspora et les Bangangté du pays autour de Sa Majesté le Roi. L’édition {site.edition.annee} sert notamment à lever
+      des fonds pour le futur musée de la chefferie, installé dans l’ancien palais royal.
+    </p>
+    <p>
+      Co-présidents du COMENGA : {site.personnalites.coPresidents.join(' et ')}.
+    </p>
+  </section>
+
+  <NdopBand hauteur={8} />
+
+  <section class="wrap section-tight" aria-labelledby="temps-forts">
+    <p class="eyebrow">Temps forts</p>
+    <h2 id="temps-forts" class="mt-2 text-3xl sm:text-4xl">Ce qui rythme le congrès</h2>
+    <ol class="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        tempsForts.map((t, i) => (
+          <li class="border-t border-trait pt-5">
+            <p class="font-serif text-sm text-or">0{i + 1}</p>
+            <h3 class="mt-1 text-xl sm:text-2xl">{t.titre}</h3>
+            <p class="mt-2 text-[0.98rem] leading-relaxed text-muted">{t.texte}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="bg-gris" aria-labelledby="programme">
+    <div class="wrap section-tight">
+      <p class="eyebrow">Programme</p>
+      <h2 id="programme" class="mt-2 text-3xl sm:text-4xl">Jour par jour</h2>
+      <p class="mt-4 max-w-2xl text-muted">
+        Le programme détaillé sera publié ici dès sa validation par le comité d’organisation. Les dates de l’édition : {site.edition.datesTexte.toLowerCase()}.
+      </p>
+      <ol class="mt-8 grid gap-px overflow-hidden rounded-md border border-trait bg-trait sm:grid-cols-2 lg:grid-cols-4" id="programme-liste">
+        <li class="bg-white p-5 sm:p-6">
+          <p class="font-serif text-lg">Ouverture</p>
+          <p class="mt-1 text-sm text-muted">{site.edition.datesCourtes.split(' – ')[0]}</p>
+          <p class="mt-3 text-sm text-muted">Détails à venir.</p>
+        </li>
+        <li class="bg-white p-5 sm:p-6">
+          <p class="font-serif text-lg">Temps forts</p>
+          <p class="mt-1 text-sm text-muted">Pendant le congrès</p>
+          <p class="mt-3 text-sm text-muted">Nzouah, séquence Musée, Ambassadrice culturelle, Nuit de la Diaspora.</p>
+        </li>
+        <li class="bg-white p-5 sm:p-6">
+          <p class="font-serif text-lg">Cérémonies</p>
+          <p class="mt-1 text-sm text-muted">Pendant le congrès</p>
+          <p class="mt-3 text-sm text-muted">Cérémonies protocolaires autour de Sa Majesté.</p>
+        </li>
+        <li class="bg-white p-5 sm:p-6">
+          <p class="font-serif text-lg">Clôture</p>
+          <p class="mt-1 text-sm text-muted">{site.edition.datesCourtes.split(' – ')[1]}</p>
+          <p class="mt-3 text-sm text-muted">Détails à venir.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap section-tight" aria-labelledby="editions">
+    <p class="eyebrow">Éditions passées</p>
+    <h2 id="editions" class="mt-2 text-3xl sm:text-4xl">Mémoire des congrès</h2>
+    <ol class="mt-10 grid gap-8 sm:grid-cols-3">
+      {
+        site.editionsPassees.map((e) => (
+          <li class="border-t border-trait pt-5">
+            <p class="font-serif text-4xl">{e.annee}</p>
+            <p class="mt-2 font-semibold">{e.titre}</p>
+            <p class="text-muted">{e.dates}</p>
+            {e.theme && <p class="mt-3 text-[0.95rem] leading-relaxed text-muted">Thème : « {e.theme} »</p>}
+          </li>
+        ))
+      }
+    </ol>
+    <ul class="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+      {
+        photos.map((p, i) => (
+          <li>
+            <Image src={p} alt={`Photo des congrès passés, ${i + 1} sur ${photos.length}.`} widths={[360, 540, 720]} sizes="(min-width: 640px) 33vw, 50vw" class="aspect-[4/3] w-full rounded-sm object-cover" />
+          </li>
+        ))
+      }
+    </ul>
+    <a href="/medias#galerie" class="btn-link mt-8">Toute la galerie</a>
+  </section>
+</Base>

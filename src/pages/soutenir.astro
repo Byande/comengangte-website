@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Formulaire from '../components/Formulaire.astro';
+import NdopBand from '../components/NdopBand.astro';
+import { objetsPublics } from '../lib/objets';
+import { site } from '../config/site';
+
+const packs = [
+  { nom: 'COMENGA Welcome', montant: '100 000 FCFA', avantages: ['Nom au tableau des mécènes', '2 entrées aux expositions'] },
+  { nom: 'Ami du Congrès', montant: '250 000 FCFA', avantages: ['2 invitations au Congrès', '1 catalogue du musée'] },
+  { nom: 'Ambassadeur', montant: '500 000 FCFA', avantages: ['Nom mis en avant', '10 entrées valables un an', '1 catalogue'] },
+  { nom: 'Grand Mécène', montant: '1 000 000 FCFA', avantages: ['2 invitations VIP', '1 pass individuel deux ans', '1 beau livre et 1 catalogue'] },
+  { nom: 'Bronze', montant: '2 000 000 à 5 000 000 FCFA', avantages: ['Logo sur le panneau des mécènes', 'Mention sur les supports', '50 entrées pendant un an', '5 beaux livres, 5 catalogues'] },
+  { nom: 'Sur mesure', montant: 'Plus de 5 000 000 FCFA', avantages: ['Contreparties à définir ensemble'] },
+  { nom: 'Platine, partenaire officiel', montant: 'À partir de 40 000 € (26 M FCFA)', avantages: ['Contreparties à définir ensemble'] },
+];
+const objets = await objetsPublics();
+const nomsObjets = objets.map((o) => `${o.data.id} · ${o.data.titre}`);
+---
+
+<Base title="Soutenir" description="Soutenez le musée de la chefferie Bangangté : packs de mécénat, parrainage d’un objet, prise de contact. Aucun paiement en ligne.">
+  <PageHero eyebrow="Mécénat" titre="Soutenir le musée" lead="Chaque contribution aide à préserver, transmettre et faire rayonner le patrimoine Bangangté. Aucun paiement en ligne : un formulaire de contact, puis un échange avec le comité." />
+
+  <section class="wrap pb-16 sm:pb-24" aria-labelledby="packs">
+    <h2 id="packs" class="sr-only">Packs de mécénat</h2>
+    <ul class="grid gap-px overflow-hidden rounded-md border border-trait bg-trait sm:grid-cols-2 lg:grid-cols-3">
+      {
+        packs.map((p) => (
+          <li class="flex flex-col bg-white p-6 sm:p-8">
+            <h3 class="text-2xl">{p.nom}</h3>
+            <p class="mt-2 font-semibold text-vert">{p.montant}</p>
+            <ul class="mt-5 space-y-2 text-[0.95rem] text-muted">
+              {p.avantages.map((a) => (
+                <li class="flex gap-3">
+                  <span class="mt-[0.6em] h-px w-3 shrink-0 bg-or" aria-hidden="true" />
+                  <span>{a}</span>
+                </li>
+              ))}
+            </ul>
+            <a href={`#formulaire`} data-pack={p.nom} class="btn-outline mt-auto pt-0 mt-8 self-start">Je veux soutenir</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <NdopBand hauteur={8} />
+
+  <section class="wrap section-tight grid gap-10 md:grid-cols-2 md:gap-14" id="parrainer" aria-labelledby="parrainer-titre">
+    <div>
+      <p class="eyebrow">Parrainer un objet</p>
+      <h2 id="parrainer-titre" class="mt-2 text-3xl sm:text-4xl">Votre nom sur la fiche d’un objet</h2>
+      <div class="prose-site mt-6">
+        <p>Chaque objet de la collection peut être parrainé. Le nom du parrain figure ensuite sur la fiche de l’objet en ligne.</p>
+        <p><a href="/musee/collection">Choisir un objet dans la collection</a></p>
+      </div>
+    </div>
+    <div id="formulaire" class="scroll-mt-24">
+      <h2 class="text-2xl">Je veux soutenir</h2>
+      <p class="mt-2 text-muted">Le comité vous recontacte pour convenir des modalités.</p>
+      <div class="mt-6">
+        <Formulaire
+          nom="soutenir"
+          sujet="Soutien au musée de la chefferie Bangangté"
+          champs={[
+            { name: 'pack', label: 'Pack de mécénat', type: 'select', options: packs.map((p) => `${p.nom} — ${p.montant}`) },
+            { name: 'objet', label: 'Objet à parrainer (facultatif)', type: 'select', options: nomsObjets },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Pré-remplir le pack ou l'objet choisi (depuis une carte ou une fiche objet).
+  const params = new URLSearchParams(location.search);
+  const objet = params.get('objet');
+  const selectObjet = document.getElementById('soutenir-objet') as HTMLSelectElement | null;
+  if (objet && selectObjet) {
+    const opt = [...selectObjet.options].find((o) => o.value.startsWith(objet));
+    if (opt) selectObjet.value = opt.value;
+  }
+  const selectPack = document.getElementById('soutenir-pack') as HTMLSelectElement | null;
+  document.querySelectorAll<HTMLAnchorElement>('[data-pack]').forEach((a) =>
+    a.addEventListener('click', () => {
+      if (!selectPack) return;
+      const opt = [...selectPack.options].find((o) => o.value.startsWith(a.dataset.pack!));
+      if (opt) selectPack.value = opt.value;
+    }),
+  );
+</script>

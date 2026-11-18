@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo/logo-comengangte.png';
+import { site } from '../config/site';
+import { t } from '../i18n/ui';
+
+interface Props {
+  musee?: boolean;
+}
+const { musee = false } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const liens = [
+  { href: '/congres', label: t('nav.congres') },
+  { href: '/chefferie', label: t('nav.chefferie') },
+  { href: '/musee', label: t('nav.musee') },
+  { href: '/soutenir', label: t('nav.soutenir') },
+  { href: '/medias', label: t('nav.medias') },
+  { href: '/contact', label: t('nav.contact') },
+];
+const actif = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
+---
+
+<header class="sticky top-0 z-50 border-b border-trait bg-white/95 backdrop-blur-sm">
+  <div class="wrap flex h-16 items-center justify-between gap-4 sm:h-20">
+    <a href="/" class="flex min-h-11 items-center gap-3" aria-label={`${site.nom}, ${t('nav.accueil')}`}>
+      <Image src={logo} alt="" width={44} height={44} class="h-10 w-10 shrink-0 rounded-full sm:h-11 sm:w-11" loading="eager" />
+      <span class="flex flex-col leading-none">
+        <span class="font-serif text-[1.15rem] font-semibold tracking-tight sm:text-[1.3rem]">{site.nom}</span>
+        <span class="mt-1 hidden text-[0.7rem] uppercase tracking-[0.14em] text-muted md:block">{site.nomLong}</span>
+      </span>
+    </a>
+
+    <nav aria-label="Navigation principale" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          liens.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                aria-current={actif(l.href) ? 'page' : undefined}
+                class:list={[
+                  'inline-flex min-h-11 items-center rounded-full px-4 text-[0.95rem] font-medium transition-colors hover:bg-gris',
+                  actif(l.href) ? (musee ? 'text-ndop' : 'text-vert') : 'text-encre',
+                  actif(l.href) && 'underline decoration-or underline-offset-8',
+                ]}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="menu-bouton"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full border border-encre/20 px-4 text-sm font-semibold lg:hidden"
+      aria-expanded="false"
+      aria-controls="menu-mobile"
+    >
+      <span data-label-ouvrir>{t('nav.menu')}</span>
+      <span data-label-fermer hidden>{t('nav.fermer')}</span>
+    </button>
+  </div>
+
+  <div id="menu-mobile" class="hidden border-t border-trait bg-white lg:hidden" hidden>
+    <nav aria-label="Navigation principale (mobile)" class="wrap py-3">
+      <ul class="flex flex-col">
+        <li>
+          <a href="/" class="flex min-h-12 items-center text-[1.05rem] font-medium" aria-current={path === '/' ? 'page' : undefined}>{t('nav.accueil')}</a>
+        </li>
+        {
+          liens.map((l) => (
+            <li class="border-t border-trait">
+              <a
+                href={l.href}
+                aria-current={actif(l.href) ? 'page' : undefined}
+                class:list={['flex min-h-12 items-center text-[1.05rem] font-medium', actif(l.href) && (musee ? 'text-ndop' : 'text-vert')]}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const bouton = document.getElementById('menu-bouton');
+  const menu = document.getElementById('menu-mobile');
+  if (bouton && menu) {
+    const ouvrir = bouton.querySelector('[data-label-ouvrir]') as HTMLElement;
+    const fermer = bouton.querySelector('[data-label-fermer]') as HTMLElement;
+    const bascule = (etat?: boolean) => {
+      const ouvert = etat ?? bouton.getAttribute('aria-expanded') !== 'true';
+      bouton.setAttribute('aria-expanded', String(ouvert));
+      menu.hidden = !ouvert;
+      menu.classList.toggle('hidden', !ouvert);
+      ouvrir.hidden = ouvert;
+      fermer.hidden = !ouvert;
+    };
+    bouton.addEventListener('click', () => bascule());
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') bascule(false);
+    });
+  }
+</script>
