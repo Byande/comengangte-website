@@ -1,83 +1,89 @@
 {
- "source": "Tableau « Dynastie des Rois Bangangté » photographié à la chefferie (assets/chefferie/tableau-dynastie-rois.jpg). Transcription à valider par la chefferie ; la ligne 14 et les suivantes sont coupées sur la photo et doivent être complétées jusqu'au roi actuel, S.M. Nji Mouluh Seidou Pokam.",
- "rois": [
-  {
-   "ordre": 1,
-   "nom": "Ngami",
-   "naissance": 1635,
-   "regne": "1665-1701"
-  },
-  {
-   "ordre": 2,
-   "nom": "Tshamngo",
-   "naissance": 1666,
-   "regne": "1701-1706"
-  },
-  {
-   "ordre": 3,
-   "nom": "Nenaton",
-   "naissance": 1680,
-   "regne": "1706-1748"
-  },
-  {
-   "ordre": 4,
-   "nom": "Mbiatat",
-   "naissance": 1704,
-   "regne": "1748-1780"
-  },
-  {
-   "ordre": 5,
-   "nom": "Ngassam I",
-   "naissance": 1734,
-   "regne": "1780-1804"
-  },
-  {
-   "ordre": 6,
-   "nom": "Nya I",
-   "naissance": 1765,
-   "regne": "1804-1805"
-  },
-  {
-   "ordre": 7,
-   "nom": "Nzike I",
-   "naissance": 1771,
-   "regne": "1805-1840"
-  },
-  {
-   "ordre": 8,
-   "nom": "Nya II",
-   "naissance": 1806,
-   "regne": "1840-1885"
-  },
-  {
-   "ordre": 9,
-   "nom": "Ngassam II",
-   "naissance": 1845,
-   "regne": "1885-1891"
-  },
-  {
-   "ordre": 10,
-   "nom": "Yomi",
-   "naissance": 1851,
-   "regne": "1891-1895"
-  },
-  {
-   "ordre": 11,
-   "nom": "Tchatchoua",
-   "naissance": 1848,
-   "regne": "1895-1912"
-  },
-  {
-   "ordre": 12,
-   "nom": "Nzike II Salomon",
-   "naissance": 1870,
-   "regne": "1912-1943"
-  },
-  {
-   "ordre": 13,
-   "nom": "Pokam Njike Robert",
-   "naissance": 1913,
-   "regne": "1943-1974"
-  }
- ]
+  "source": "Tableau « Dynastie des Rois Bangangté » photographié à la chefferie (assets/chefferie/tableau-dynastie-rois.jpg), rois 1 à 13. Le 14e roi, S.M. Nji Monluh Seidou Pokam, règne depuis 1974 (information du comité, 18 novembre 2026) ; son année de naissance est à fournir.",
+  "rois": [
+    {
+      "ordre": 1,
+      "nom": "Ngami",
+      "naissance": 1635,
+      "regne": "1665-1701"
+    },
+    {
+      "ordre": 2,
+      "nom": "Tshamngo",
+      "naissance": 1666,
+      "regne": "1701-1706"
+    },
+    {
+      "ordre": 3,
+      "nom": "Nenaton",
+      "naissance": 1680,
+      "regne": "1706-1748"
+    },
+    {
+      "ordre": 4,
+      "nom": "Mbiatat",
+      "naissance": 1704,
+      "regne": "1748-1780"
+    },
+    {
+      "ordre": 5,
+      "nom": "Ngassam I",
+      "naissance": 1734,
+      "regne": "1780-1804"
+    },
+    {
+      "ordre": 6,
+      "nom": "Nya I",
+      "naissance": 1765,
+      "regne": "1804-1805"
+    },
+    {
+      "ordre": 7,
+      "nom": "Nzike I",
+      "naissance": 1771,
+      "regne": "1805-1840"
+    },
+    {
+      "ordre": 8,
+      "nom": "Nya II",
+      "naissance": 1806,
+      "regne": "1840-1885"
+    },
+    {
+      "ordre": 9,
+      "nom": "Ngassam II",
+      "naissance": 1845,
+      "regne": "1885-1891"
+    },
+    {
+      "ordre": 10,
+      "nom": "Yomi",
+      "naissance": 1851,
+      "regne": "1891-1895"
+    },
+    {
+      "ordre": 11,
+      "nom": "Tchatchoua",
+      "naissance": 1848,
+      "regne": "1895-1912"
+    },
+    {
+      "ordre": 12,
+      "nom": "Nzike II Salomon",
+      "naissance": 1870,
+      "regne": "1912-1943"
+    },
+    {
+      "ordre": 13,
+      "nom": "Pokam Njike Robert",
+      "naissance": 1913,
+      "regne": "1943-1974"
+    },
+    {
+      "ordre": 14,
+      "nom": "Nji Monluh Seidou Pokam",
+      "naissance": null,
+      "regne": "1974-"
+    }
+  ]
 }

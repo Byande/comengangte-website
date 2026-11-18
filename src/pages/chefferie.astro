@@ -75,8 +75,8 @@ import plaques from '../assets/objets/plaques-ngami-kameni.jpg';
       <p class="eyebrow">La dynastie</p>
       <h2 id="dynastie" class="titre mt-2 text-3xl sm:text-4xl">Les rois Bangangté</h2>
       <p class="mt-4 text-muted">
-        Liste relevée sur le tableau « Dynastie des Rois Bangangté » de la chefferie. Elle est en cours de validation et sera complétée jusqu’au roi
-        actuel, {site.personnalites.roi.nom}.
+        Liste relevée sur le tableau « Dynastie des Rois Bangangté » de la chefferie, de Ngami, fondateur, jusqu’au roi actuel,
+        {site.personnalites.roi.nom}, qui règne depuis 1974.
       </p>
     </div>
     <ol class="mt-12 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -87,19 +87,13 @@ import plaques from '../assets/objets/plaques-ngami-kameni.jpg';
             <div>
               <p class="font-serif text-xl">{r.nom}</p>
               <p class="text-sm text-muted">
-                Règne {r.regne.replace('-', ' – ')} · né en {r.naissance}
+                {r.regne.endsWith('-') ? `Règne depuis ${r.regne.slice(0, -1)}` : `Règne ${r.regne.replace('-', ' – ')}`}
+                {r.naissance ? ` · né en ${r.naissance}` : ''}
               </p>
             </div>
           </li>
         ))
       }
-      <li class="flex gap-4 border-t border-dashed border-trait pt-4">
-        <span class="font-serif text-2xl text-muted">…</span>
-        <div>
-          <p class="font-serif text-xl text-muted">Suite de la dynastie</p>
-          <p class="text-sm text-muted">En cours de validation par la chefferie.</p>
-        </div>
-      </li>
     </ol>
   </section>
 
