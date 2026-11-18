@@ -7,6 +7,7 @@ import { objetsPublics } from '../lib/objets';
 import { site } from '../config/site';
 
 const packs = [
+  { nom: 'Contribution libre', montant: 'Le montant de votre choix, dès 500 FCFA', avantages: ['Chaque contribution compte, quel que soit son montant', 'Vous indiquez la somme dans le formulaire'] },
   { nom: 'COMENGA Welcome', montant: '100 000 FCFA', avantages: ['Nom au tableau des mécènes', '2 entrées aux expositions'] },
   { nom: 'Ami du Congrès', montant: '250 000 FCFA', avantages: ['2 invitations au Congrès', '1 catalogue du musée'] },
   { nom: 'Ambassadeur', montant: '500 000 FCFA', avantages: ['Nom mis en avant', '10 entrées valables un an', '1 catalogue'] },
@@ -20,7 +21,7 @@ const nomsObjets = objets.map((o) => `${o.data.id} · ${o.data.titre}`);
 ---
 
 <Base title="Soutenir" description="Soutenez le musée de la chefferie Bangangté : packs de mécénat, parrainage d’un objet, prise de contact. Aucun paiement en ligne.">
-  <PageHero eyebrow="Mécénat" titre="Soutenir le musée" lead="Chaque contribution aide à préserver, transmettre et faire rayonner le patrimoine Bangangté. Aucun paiement en ligne : un formulaire de contact, puis un échange avec le comité." />
+  <PageHero eyebrow="Mécénat" titre="Soutenir le musée" lead="Chaque contribution aide à préserver, transmettre et faire rayonner le patrimoine Bangangté, dès 500 FCFA et sans montant minimum. Aucun paiement en ligne : un formulaire de contact, puis un échange avec le comité." />
 
   <section class="wrap pb-16 sm:pb-24" aria-labelledby="packs">
     <h2 id="packs" class="sr-only">Packs de mécénat</h2>
@@ -64,7 +65,8 @@ const nomsObjets = objets.map((o) => `${o.data.id} · ${o.data.titre}`);
           nom="soutenir"
           sujet="Soutien au musée de la chefferie Bangangté"
           champs={[
-            { name: 'pack', label: 'Pack de mécénat', type: 'select', options: packs.map((p) => `${p.nom} — ${p.montant}`) },
+            { name: 'pack', label: 'Formule choisie', type: 'select', options: packs.map((p) => `${p.nom} — ${p.montant}`) },
+            { name: 'montant', label: 'Montant que vous souhaitez donner, en FCFA (libre, dès 500)' },
             { name: 'objet', label: 'Objet à parrainer (facultatif)', type: 'select', options: nomsObjets },
           ]}
         />
