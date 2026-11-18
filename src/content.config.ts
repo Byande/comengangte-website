@@ -28,6 +28,8 @@ const objets = defineCollection({
     credit_photo: z.string().nullable(),
     parrain: z.string().nullable().optional(),
     salle: z.string().nullable().optional(),
+    source_recit: z.string().nullable().optional(),
+    photos_sup: z.array(z.string()).optional(),
     a_valider: z.array(z.string()).optional(),
   }),
 });

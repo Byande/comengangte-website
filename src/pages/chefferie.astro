@@ -10,6 +10,8 @@ import fresque from '../assets/fresques/panthere-peinture.jpg';
 import facade from '../assets/chefferie/facade-ndop.jpg';
 import ndop from '../assets/chefferie/enfant-tissu-ndop.jpg';
 import embleme from '../assets/fresques/embleme-facade-01.jpeg';
+import ngami from '../assets/objets/statuette-ngami.jpg';
+import plaques from '../assets/objets/plaques-ngami-kameni.jpg';
 ---
 
 <Base title="La Chefferie" description={`La chefferie supérieure Bangangté : devise « ${site.devise} », dynastie des rois, ancien palais royal, panthère et ndop.`}>
@@ -19,6 +21,52 @@ import embleme from '../assets/fresques/embleme-facade-01.jpeg';
       <a href={site.chefferie.historique} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Historique</a>{' · '}<a href={site.chefferie.royaume} rel="external" class="underline decoration-or/60 underline-offset-4 hover:decoration-or">Royaume</a>
     </p>
   </PageHero>
+
+  <NdopBand hauteur={8} />
+
+  <section class="wrap section" id="origines" aria-labelledby="origines-titre">
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
+      <div class="lg:col-span-7">
+        <p class="eyebrow">Les origines</p>
+        <h2 id="origines-titre" class="titre mt-2 text-3xl sm:text-4xl">De la Nubie à Bangangté</h2>
+        <span class="filet-or" aria-hidden="true"></span>
+        <div class="prose-site mt-8">
+          <p>
+            Selon la tradition transmise par le comité, le peuple bangangté descend d’un peuple nubien établi au sud de l’Égypte à l’époque pharaonique. Une
+            partie de ces populations aurait migré vers le Soudan central, d’autres vers le Kenya et la Tanzanie, d’autres enfin vers la plaine de
+            l’Adamaoua, au Cameroun, où elles prirent le nom de Tikar.
+          </p>
+          <p>
+            Vers 1390, après une dispute de succession, trois princes tikar quittent la chefferie et progressent vers l’ouest à la recherche de nouvelles
+            terres : Nchare Yen, Foo Mbam et leur sœur Ngouosso. Après la traversée de la Mapé, Nchare Yen coupe le pont derrière lui, empêchant son frère
+            et sa sœur de le suivre, et s’installe dans la plaine du Noun, chez les Mbain, où il fonde sa chefferie vers 1394.
+          </p>
+          <p>
+            À la huitième génération, le prince Foo Ngapna se détache à son tour et fonde le royaume de Banka en 1660. En 1665 naissent ses deux jumeaux,
+            Ngami et Kameni. Devenus chasseurs, très jeunes et humbles mais refusant toute domination, les deux frères partent à la conquête de nouvelles
+            terres. Arrivés dans le village des Bahouoc, ils convainquent le chef Feutap Mveu Ngafa et s’installent sur son territoire, jusqu’à fonder la
+            chefferie de <em>Pah Gha Teu</em>, « ceux qui refusent la soumission ». Ngami en est le chef fondateur : ainsi commence la dynastie royale des
+            Bangangté.
+          </p>
+          <p>
+            Kameni, lui, part fonder la dynastie de Bangang-Fokam, dont il est le premier chef en 1690. Après les premières manifestations des Bangangté, le
+            chef des Bahouoc leur déclare la guerre ; vaincu, il se retire avec une partie de sa population à Bali, dans la région de Bamenda.
+          </p>
+          <p class="text-sm text-muted">Récit transcrit des notes manuscrites remises par le comité d’organisation en novembre 2026, en cours de validation par la chefferie.</p>
+        </div>
+      </div>
+      <div class="lg:col-span-5">
+        <a href="/musee/objets/statuette-ngami" class="group block">
+          <div class="ndop-frame"><Image src={ngami} alt="Statue de Ngami, fondateur de la dynastie : homme debout tenant deux longues lances, yeux incrustés, colliers." widths={[400, 600, 800]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[4/5] w-full object-cover" /></div>
+          <p class="mt-3 text-sm text-muted"><span class="font-semibold text-vert group-hover:underline">Ngami</span>, fondateur de la dynastie. Statue de 2,14 m en bois royal, bronze et argent.</p>
+        </a>
+        <a href="/musee/objets/plaques-ngami-kameni" class="group mt-8 block">
+          <div class="ndop-frame"><Image src={plaques} alt="Deux plaques de bois sculptées et ajourées racontant le parcours de Ngami et Kameni." widths={[400, 600, 800]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[4/5] w-full object-cover" /></div>
+          <p class="mt-3 text-sm text-muted"><span class="font-semibold text-vert group-hover:underline">Les plaques</span> du parcours de Ngami et Kameni, de Banka à Bangangté et Bangang-Fokam.</p>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <NdopBand hauteur={8} />
 

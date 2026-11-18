@@ -9,6 +9,18 @@ const photos = import.meta.glob<ImageMetadata>('/src/assets/objets/*.{jpg,jpeg,p
   import: 'default',
 });
 
+/** Photos supplémentaires (dossier `plus/`), référencées par `photos_sup` dans objets.json. */
+const photosPlus = import.meta.glob<ImageMetadata>('/src/assets/objets/plus/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  import: 'default',
+});
+
+export function photosSupplementaires(objet: Objet): ImageMetadata[] {
+  return (objet.data.photos_sup ?? [])
+    .map((nom) => Object.entries(photosPlus).find(([path]) => path.split('/').pop()?.replace(/\.[^.]+$/, '') === nom)?.[1])
+    .filter((p): p is ImageMetadata => !!p);
+}
+
 export function photoObjet(slug: string): ImageMetadata | undefined {
   const entry = Object.entries(photos).find(([path]) => path.split('/').pop()?.replace(/\.[^.]+$/, '') === slug);
   return entry?.[1];
@@ -69,6 +81,12 @@ export const salles = [
 
 export type Salle = (typeof salles)[number];
 
+/** Un objet appartient à une salle par sa catégorie, ou par un rattachement explicite (`salle` dans objets.json) qui prime. */
+export function salleDe(objet: Objet): Salle | undefined {
+  if (objet.data.salle) return salles.find((s) => s.slug === objet.data.salle);
+  return salles.find((s) => (s.categories as readonly string[]).includes(objet.data.categorie));
+}
+
 export function objetsDeSalle(salle: Salle, objets: Objet[]): Objet[] {
-  return objets.filter((o) => (salle.categories as readonly string[]).includes(o.data.categorie));
+  return objets.filter((o) => salleDe(o)?.slug === salle.slug);
 }
