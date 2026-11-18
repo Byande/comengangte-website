@@ -5,10 +5,6 @@ ErrorDocument 404 /404.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  # Un dossier et une page peuvent porter le même nom (musee/ et musee.html) :
-  # ne pas ajouter de barre oblique automatiquement.
-  DirectorySlash Off
-
   # Forcer HTTPS
   RewriteCond %{HTTPS} !=on
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -17,9 +13,16 @@ ErrorDocument 404 /404.html
   RewriteCond %{THE_REQUEST} \s/([^\s?]+)\.html[\s?] [NC]
   RewriteRule ^ /%1 [R=301,L]
 
-  # /page/ -> /page quand page.html existe
+  # /page/ -> /page quand page.html existe et qu'aucun dossier ne porte ce nom
+  RewriteCond %{DOCUMENT_ROOT}/$1 !-d
   RewriteCond %{DOCUMENT_ROOT}/$1.html -f
   RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # /dossier/ -> dossier.html quand un dossier et une page portent le même nom (musee/ et musee.html).
+  # Le serveur ajoute lui-même la barre oblique : on sert la page sans nouvelle redirection.
+  RewriteCond %{DOCUMENT_ROOT}/$1 -d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+)/$ $1.html [L]
 
   # /page -> page.html (servi en interne)
   RewriteCond %{DOCUMENT_ROOT}/$1.html -f
