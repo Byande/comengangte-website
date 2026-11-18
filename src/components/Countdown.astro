@@ -5,7 +5,11 @@ import { t } from '../i18n/ui';
 const debut = new Date(site.edition.debut);
 const fin = new Date(site.edition.fin);
 const maintenant = new Date();
-const joursInit = Math.max(0, Math.ceil((debut.getTime() - maintenant.getTime()) / 86_400_000));
+// Valeurs calculées au moment du build : affichées telles quelles si le JavaScript ne s'exécute pas.
+const resteInit = Math.max(0, debut.getTime() - maintenant.getTime());
+const joursInit = Math.floor(resteInit / 86_400_000);
+const heuresInit = Math.floor((resteInit % 86_400_000) / 3_600_000);
+const etatInit = maintenant >= fin ? t('compte.termine') : maintenant >= debut ? t('compte.encours') : '';
 ---
 
 <div
@@ -17,15 +21,15 @@ const joursInit = Math.max(0, Math.ceil((debut.getTime() - maintenant.getTime())
   data-termine={t('compte.termine')}
   aria-live="polite"
 >
-  <div class="flex items-baseline gap-2">
-    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-jours>{joursInit}</span>
-    <span class="text-sm uppercase tracking-[0.16em] text-muted">{t('compte.jours')}</span>
-  </div>
-  <div class="flex items-baseline gap-2">
-    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-heures>–</span>
-    <span class="text-sm uppercase tracking-[0.16em] text-muted">{t('compte.heures')}</span>
-  </div>
-  <p class="w-full font-serif text-xl" data-etat hidden></p>
+  <p class="whitespace-nowrap" hidden={!!etatInit}>
+    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-jours>{joursInit}</span>{' '}
+    <span class="ml-1 text-sm uppercase tracking-[0.16em] text-muted">{t('compte.jours')}</span>
+  </p>
+  <p class="whitespace-nowrap" hidden={!!etatInit}>
+    <span class="font-serif text-5xl font-medium tabular-nums sm:text-6xl" data-heures>{heuresInit}</span>{' '}
+    <span class="ml-1 text-sm uppercase tracking-[0.16em] text-muted">{t('compte.heures')}</span>
+  </p>
+  <p class="w-full font-serif text-xl" data-etat hidden={!etatInit}>{etatInit}</p>
 </div>
 
 <script>
@@ -36,7 +40,7 @@ const joursInit = Math.max(0, Math.ceil((debut.getTime() - maintenant.getTime())
     const jours = el.querySelector('[data-jours]')!;
     const heures = el.querySelector('[data-heures]')!;
     const etat = el.querySelector('[data-etat]') as HTMLElement;
-    const blocs = el.querySelectorAll<HTMLElement>(':scope > div');
+    const blocs = el.querySelectorAll<HTMLElement>(':scope > p:not([data-etat])');
     const maj = () => {
       const now = Date.now();
       if (now >= fin) {

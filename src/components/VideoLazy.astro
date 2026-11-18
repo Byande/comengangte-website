@@ -22,7 +22,7 @@ const poster = Object.entries(posters).find(([p]) => p.endsWith(`/${nom}.jpg`))?
 
 <figure class="video-lazy" data-src={src}>
   <div class:list={['relative overflow-hidden bg-gris', portrait ? 'aspect-[9/16]' : 'aspect-video']}>
-    {poster && <Image src={poster} alt="" widths={portrait ? [360, 540, 720] : [640, 960, 1280]} sizes={portrait ? '(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 60vw, 100vw'} class="h-full w-full object-cover" loading="lazy" data-poster />}
+    {poster && <Image src={poster} alt={`Aperçu de la vidéo : ${titre}`} widths={portrait ? [360, 540, 720] : [640, 960, 1280]} sizes={portrait ? '(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 60vw, 100vw'} class="h-full w-full object-cover" loading="lazy" data-poster />}
     <video class="hidden h-full w-full bg-black" controls preload="none" playsinline data-video>
       <track kind="captions" />
     </video>

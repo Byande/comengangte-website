@@ -24,7 +24,7 @@ const actif = (href: string) => path === href || (href !== '/' && path.startsWit
 <header class="sticky top-0 z-50 border-b border-trait bg-white/95 backdrop-blur-sm">
   <div class="wrap flex h-16 items-center justify-between gap-4 sm:h-20">
     <a href="/" class="flex min-h-11 items-center gap-3" aria-label={`${site.nom}, ${t('nav.accueil')}`}>
-      <Image src={logo} alt="" width={44} height={44} class="h-10 w-10 shrink-0 rounded-full sm:h-11 sm:w-11" loading="eager" />
+      <Image src={logo} alt={`Logo du ${site.nom}`} width={44} height={44} class="h-10 w-10 shrink-0 rounded-full sm:h-11 sm:w-11" loading="eager" />
       <span class="flex flex-col leading-none">
         <span class="font-serif text-[1.15rem] font-semibold tracking-tight sm:text-[1.3rem]">{site.nom}</span>
         <span class="mt-1 hidden text-[0.7rem] uppercase tracking-[0.14em] text-muted md:block lg:hidden xl:block">{site.nomLong}</span>
